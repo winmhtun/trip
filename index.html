@@ -1,422 +1,494 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chiang Mai — 7 Days in the Rose of the North</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Chiang Mai — 7 Days</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
-:root{--gold:#C4956A;--gold-light:#E8D5B7;--gold-dark:#7A5A10;--midnight:#1A1A2E;--charcoal:#2D2D3F;--slate:#3E3E52;--cream:#FDF8F0;--warm-white:#FFFAF3;--terra:#B85C38;--sage:#5A7D60;--blush:#F2E1D1;--ink:#1C1C28;--muted:#5E5E70;--border:rgba(196,149,106,0.2);--shadow-sm:0 2px 6px rgba(26,26,46,0.07);--shadow-md:0 4px 20px rgba(26,26,46,0.09);--radius:8px;--radius-lg:14px}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.75;font-size:17px;-webkit-font-smoothing:antialiased}
-.hero{background:linear-gradient(135deg,var(--midnight) 0%,var(--charcoal) 40%,#3D2B1F 100%);color:var(--cream);padding:56px 24px 48px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C4956A' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
-.hero-eyebrow{font-size:13px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;position:relative}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;line-height:1.15;margin-bottom:10px;position:relative}
-.hero h1 em{font-style:italic;font-weight:400;color:var(--gold-light)}
-.hero-sub{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--gold);margin-bottom:28px;position:relative}
-.hero-divider{width:48px;height:1px;background:var(--gold);margin:0 auto 24px;position:relative}
-.hero-meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:15px;font-weight:500;color:rgba(253,248,240,0.75);position:relative}
-.day-nav{position:sticky;top:0;z-index:100;background:var(--warm-white);border-bottom:1px solid var(--border);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.day-nav::-webkit-scrollbar{display:none}
-.day-nav-inner{display:flex;max-width:860px;margin:0 auto;min-width:max-content}
-.day-nav a{display:block;padding:16px 14px;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:.2s}
-.day-nav a:hover{color:var(--gold-dark);border-bottom-color:var(--gold)}
-.content{max-width:860px;margin:0 auto;padding:0 24px}
-.card{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;margin:32px 0;box-shadow:var(--shadow-sm)}
-.card h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:20px}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.info-item{padding:16px;background:var(--cream);border-radius:var(--radius);border-left:3px solid var(--gold)}
-.info-item .label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:5px}
-.info-item .value{font-size:18px;font-weight:600;color:var(--ink)}
-.info-item .note{font-size:14px;color:var(--muted);margin-top:3px}
-.weather-card{background:linear-gradient(135deg,#FFF7ED,#FEF3C7);border:1px solid #F59E0B33;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0}
-.weather-card h3{font-size:18px;font-weight:700;color:#92400E;margin-bottom:12px}
-.weather-card p{font-size:16px;color:#78350F;line-height:1.7}
-.group-note{background:linear-gradient(135deg,#EDE9FE,#F3E8FF);border:1px solid #A78BFA33;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0}
-.group-note h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#4C1D95;margin-bottom:10px}
-.group-note p{font-size:16px;color:#5B21B6;line-height:1.7}
-#map-section{margin:32px 0}
-#map-section h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:16px}
-#itinerary-map{height:420px;border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-md);z-index:1}
-.map-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:14px;color:var(--slate)}
-.map-legend span{display:flex;align-items:center;gap:6px}
-.map-legend .dot{width:12px;height:12px;border-radius:50%;display:inline-block}
-.day-section{margin:48px 0;padding-top:12px}
-.day-banner{width:100%;height:220px;border-radius:var(--radius-lg);overflow:hidden;position:relative;margin-bottom:28px;box-shadow:var(--shadow-md)}
-.day-banner img{width:100%;height:100%;object-fit:cover}
-.day-banner-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(26,26,46,0.75));display:flex;flex-direction:column;justify-content:flex-end;padding:24px 28px}
-.day-banner-overlay .day-label{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light)}
-.day-banner-overlay .day-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:white;line-height:1.2;margin-top:4px}
-.day-stats{display:flex;gap:20px;flex-wrap:wrap;margin:0 0 12px;padding:14px 20px;background:var(--cream);border-radius:var(--radius);border:1px solid var(--border)}
-.day-stat{font-size:15px;color:var(--slate);display:flex;align-items:center;gap:6px}
-.day-stat strong{color:var(--ink);font-weight:600}
-.neighborhood-tag{display:inline-block;padding:6px 16px;background:var(--gold);color:white;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:20px;margin:6px 0 28px}
-.timeline{position:relative;padding-left:32px}
-.timeline::before{content:'';position:absolute;left:9px;top:10px;bottom:0;width:1.5px;background:var(--border)}
-.tl-item{position:relative;margin-bottom:40px}
-.tl-item::before{content:'';position:absolute;left:-26px;top:10px;width:11px;height:11px;border-radius:50%;background:var(--gold);border:2px solid var(--cream);box-shadow:0 0 0 2.5px var(--gold)}
-.tl-item.meal::before{background:var(--terra);box-shadow:0 0 0 2.5px var(--terra)}
-.tl-item.culture::before{background:var(--sage);box-shadow:0 0 0 2.5px var(--sage)}
-.tl-time{font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px}
-.tl-item.meal .tl-time{color:var(--terra)}
-.tl-item.culture .tl-time{color:var(--sage)}
-.tl-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:4px}
-.tl-addr{font-size:14px;color:var(--muted);margin-bottom:10px}
-.tl-addr a{color:var(--gold-dark);text-decoration:none;font-weight:500}
-.tl-addr a:hover{text-decoration:underline}
-.tl-desc{font-size:16px;color:var(--slate);line-height:1.75;margin-bottom:12px}
-.tl-desc strong{color:var(--ink);font-weight:600}
-.photos{display:flex;gap:12px;margin:16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
-.photos::-webkit-scrollbar{display:none}
-.photo{flex:0 0 200px;height:150px;border-radius:var(--radius);overflow:hidden;position:relative;box-shadow:var(--shadow-sm);border:1px solid var(--border);display:block;text-decoration:none}
-.photo img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.photo:hover img{transform:scale(1.05)}
-.photo span{position:absolute;bottom:0;left:0;right:0;padding:6px 10px;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:white;font-size:13px;font-weight:500}
-.gallery-link{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:var(--gold-dark);text-decoration:none;margin-top:6px;padding:6px 0}
-.gallery-link:hover{color:var(--terra)}
-.alt{background:#F0FAF1;border:1px solid #6B8F7133;border-radius:var(--radius);padding:16px 20px;margin-top:14px}
-.alt-label{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:6px}
-.alt p{font-size:15px;color:#2D5A3D;line-height:1.6}
-.walk{display:flex;align-items:center;gap:10px;padding:12px 18px;background:var(--blush);border-radius:var(--radius);font-size:15px;color:var(--terra);font-weight:600;margin:20px 0}
-.budget{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin:28px 0 0}
-.budget h4{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:14px}
-.budget-row{display:flex;justify-content:space-between;padding:9px 0;font-size:16px;border-bottom:1px solid var(--border)}
-.budget-row:last-of-type{border-bottom:none}
-.budget-row .cat{color:var(--slate)}
-.budget-row .amt{font-weight:600;color:var(--ink)}
-.budget-total{display:flex;justify-content:space-between;padding:12px 0 0;margin-top:10px;border-top:2.5px solid var(--gold);font-size:18px;font-weight:700}
-.budget-total .amt{color:var(--gold-dark)}
-.divider{text-align:center;margin:52px 0 16px;position:relative}
-.divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border)}
-.divider span{background:var(--cream);padding:0 20px;position:relative;font-size:20px;color:var(--gold)}
-.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
-.tip{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm)}
-.tip h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:12px}
-.tip li{font-size:15px;color:var(--slate);line-height:1.6;margin-bottom:6px}
-.tip ul{padding-left:18px}
-.footer{text-align:center;padding:48px 24px;margin-top:48px;border-top:1px solid var(--border);background:var(--warm-white)}
-.footer .brand{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gold-dark);margin-bottom:10px}
-.footer p{font-size:15px;color:var(--muted);line-height:1.8}
-@media(max-width:600px){.hero h1{font-size:38px}.hero{padding:40px 18px 36px}.info-grid,.tips-grid{grid-template-columns:1fr}.day-banner{height:180px}.day-banner-overlay .day-title{font-size:26px}.content{padding:0 16px}.day-nav a{padding:14px 10px;font-size:11px}.photo{flex:0 0 180px;height:135px}#itinerary-map{height:320px}}
-@media print{.day-nav{display:none}.day-section{break-inside:avoid}body{font-size:13px}#map-section{display:none}}
-</style>
-</head>
-<body>
-
+:root{--g:#C4956A;--gl:#E8D5B7;--gd:#7A5A10;--mn:#1A1A2E;--ch:#2D2D3F;--sl:#3E3E52;--cr:#FDF8F0;--ww:#FFFAF3;--te:#B85C38;--sa:#5A7D60;--bl:#F2E1D1;--ik:#1C1C28;--mu:#5E5E70;--bd:rgba(196,149,106,0.2);--ss:0 2px 6px rgba(26,26,46,0.07);--sm:0 4px 20px rgba(26,26,46,0.09);--r:8px;--rl:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--ik);line-height:1.75;font-size:17px;-webkit-font-smoothing:antialiased}
+.lang-mm{font-family:'Noto Sans Myanmar','DM Sans',sans-serif!important}.lang-mm *{font-family:inherit!important}
+.lang-mm .hero h1,.lang-mm .tn,.lang-mm .card h2,.lang-mm #ms h2,.lang-mm .tp h4,.lang-mm .ft .b2,.lang-mm .db .ov .dt,.lang-mm .hero-sub{font-family:'Noto Sans Myanmar',serif!important}
+/* Toggle */
+.ltg{position:fixed;top:12px;right:12px;z-index:200;display:flex;align-items:center;background:white;border:1.5px solid var(--bd);border-radius:20px;padding:0;box-shadow:var(--sm);overflow:hidden;cursor:pointer}
+.ltg span{display:block;padding:8px 14px;font-size:13px;font-weight:700;letter-spacing:1px;transition:.2s;user-select:none}
+.ltg .active{background:var(--g);color:white}.ltg .inactive{background:white;color:var(--mu)}
+.ltg:hover{box-shadow:0 4px 24px rgba(26,26,46,0.18)}
+/* Core */
+.hero{background:linear-gradient(135deg,var(--mn),var(--ch) 40%,#3D2B1F);color:var(--cr);padding:56px 24px 48px;text-align:center}
+.hero-ey{font-size:13px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:18px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;line-height:1.15;margin-bottom:10px}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--gl)}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--g);margin-bottom:28px}
+.hero-div{width:48px;height:1px;background:var(--g);margin:0 auto 24px}
+.hero-meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:15px;font-weight:500;color:rgba(253,248,240,0.75)}
+nav.dn{position:sticky;top:0;z-index:100;background:var(--ww);border-bottom:1px solid var(--bd);padding:0 12px;overflow-x:auto;scrollbar-width:none}nav.dn::-webkit-scrollbar{display:none}
+nav.dn .inner{display:flex;max-width:860px;margin:0 auto;min-width:max-content}
+nav.dn a{display:block;padding:16px 13px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:.2s}nav.dn a:hover{color:var(--gd);border-bottom-color:var(--g)}
+.ct{max-width:860px;margin:0 auto;padding:0 24px}
+.card{background:white;border:1px solid var(--bd);border-radius:var(--rl);padding:28px;margin:32px 0;box-shadow:var(--ss)}.card h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:20px}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:16px}.ii{padding:16px;background:var(--cr);border-radius:var(--r);border-left:3px solid var(--g)}
+.ii .lb{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:5px}.ii .vl{font-size:18px;font-weight:600}.ii .nt{font-size:14px;color:var(--mu);margin-top:3px}
+.wc{background:linear-gradient(135deg,#FFF7ED,#FEF3C7);border:1px solid #F59E0B33;border-radius:var(--rl);padding:24px 28px;margin:32px 0}.wc h3{font-size:18px;font-weight:700;color:#92400E;margin-bottom:12px}.wc p{font-size:16px;color:#78350F;line-height:1.7}
+.gn{background:linear-gradient(135deg,#EDE9FE,#F3E8FF);border:1px solid #A78BFA33;border-radius:var(--rl);padding:24px 28px;margin:32px 0}.gn h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#4C1D95;margin-bottom:10px}.gn p{font-size:16px;color:#5B21B6;line-height:1.7}
+#ms{margin:32px 0}#ms h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:16px}#im{height:420px;border-radius:var(--rl);border:1px solid var(--bd);box-shadow:var(--sm);z-index:1}
+.ml{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--sl)}.ml span{display:flex;align-items:center;gap:6px}.ml .dt{width:12px;height:12px;border-radius:50%;display:inline-block}
+.ds{margin:48px 0;padding-top:12px}
+.db{width:100%;height:220px;border-radius:var(--rl);overflow:hidden;position:relative;margin-bottom:28px;box-shadow:var(--sm)}.db img{width:100%;height:100%;object-fit:cover}
+.db .ov{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(26,26,46,0.75));display:flex;flex-direction:column;justify-content:flex-end;padding:24px 28px}
+.db .ov .dl{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gl)}.db .ov .dt{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:white;line-height:1.2;margin-top:4px}
+.dss{display:flex;gap:20px;flex-wrap:wrap;margin:0 0 12px;padding:14px 20px;background:var(--cr);border-radius:var(--r);border:1px solid var(--bd)}
+.dst{font-size:15px;color:var(--sl);display:flex;align-items:center;gap:6px}.dst strong{color:var(--ik);font-weight:600}
+.nt2{display:inline-block;padding:6px 16px;background:var(--g);color:white;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:20px;margin:6px 0 28px}
+.tl{position:relative;padding-left:32px}.tl::before{content:'';position:absolute;left:9px;top:10px;bottom:0;width:1.5px;background:var(--bd)}
+.ti{position:relative;margin-bottom:40px}.ti::before{content:'';position:absolute;left:-26px;top:10px;width:11px;height:11px;border-radius:50%;background:var(--g);border:2px solid var(--cr);box-shadow:0 0 0 2.5px var(--g)}
+.ti.m::before{background:var(--te);box-shadow:0 0 0 2.5px var(--te)}.ti.c::before{background:var(--sa);box-shadow:0 0 0 2.5px var(--sa)}
+.tt{font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gd);margin-bottom:6px}.ti.m .tt{color:var(--te)}.ti.c .tt{color:var(--sa)}
+.tn{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--ik);line-height:1.25;margin-bottom:4px}
+.ta{font-size:14px;color:var(--mu);margin-bottom:10px}.ta a{color:var(--gd);text-decoration:none;font-weight:500}.ta a:hover{text-decoration:underline}
+.td{font-size:16px;color:var(--sl);line-height:1.75;margin-bottom:12px}.td strong{color:var(--ik);font-weight:600}
+.ph{display:flex;gap:12px;margin:16px 0;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.ph::-webkit-scrollbar{display:none}
+.pi{flex:0 0 200px;height:150px;border-radius:var(--r);overflow:hidden;position:relative;box-shadow:var(--ss);border:1px solid var(--bd);display:block;text-decoration:none}
+.pi img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.pi:hover img{transform:scale(1.05)}
+.pi span{position:absolute;bottom:0;left:0;right:0;padding:6px 10px;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:white;font-size:13px;font-weight:500}
+.gl{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:var(--gd);text-decoration:none;margin-top:6px;padding:6px 0}.gl:hover{color:var(--te)}
+.al{background:#F0FAF1;border:1px solid #6B8F7133;border-radius:var(--r);padding:16px 20px;margin-top:14px}.al-l{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sa);margin-bottom:6px}.al p{font-size:15px;color:#2D5A3D;line-height:1.6}
+.bg{background:white;border:1px solid var(--bd);border-radius:var(--r);padding:22px 24px;margin:28px 0 0}
+.bg h4{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:14px}
+.br{display:flex;justify-content:space-between;padding:9px 0;font-size:16px;border-bottom:1px solid var(--bd)}.br:last-of-type{border-bottom:none}.br .ca{color:var(--sl)}.br .am{font-weight:600;color:var(--ik)}
+.bt{display:flex;justify-content:space-between;padding:12px 0 0;margin-top:10px;border-top:2.5px solid var(--g);font-size:18px;font-weight:700}.bt .am{color:var(--gd)}
+.dv{text-align:center;margin:52px 0 16px;position:relative}.dv::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:var(--bd)}.dv span{background:var(--cr);padding:0 20px;position:relative;font-size:20px;color:var(--g)}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}.tp{background:white;border:1px solid var(--bd);border-radius:var(--r);padding:20px;box-shadow:var(--ss)}
+.tp h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:12px}.tp li{font-size:15px;color:var(--sl);line-height:1.6;margin-bottom:6px}.tp ul{padding-left:18px}
+.ft{text-align:center;padding:48px 24px;margin-top:48px;border-top:1px solid var(--bd);background:var(--ww)}.ft .b2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gd);margin-bottom:10px}.ft p{font-size:15px;color:var(--mu);line-height:1.8}
+@media(max-width:600px){.hero h1{font-size:36px}.hero{padding:40px 18px 36px}.ig,.tg{grid-template-columns:1fr}.db{height:180px}.db .ov .dt{font-size:24px}.ct{padding:0 16px}nav.dn a{padding:14px 9px;font-size:10px}.pi{flex:0 0 180px;height:135px}#im{height:300px}.ltg{top:auto;bottom:12px;right:12px}}
+@media print{nav.dn,.ltg{display:none}.ds{break-inside:avoid}body{font-size:13px}#ms{display:none}}
+</style></head><body>
+ 
+<!-- Language Toggle -->
+<div class="ltg" id="ltg" onclick="toggleLang()"><span id="enBtn" class="active">EN</span><span id="mmBtn" class="inactive">MM</span></div>
+ 
 <header class="hero">
-  <div class="hero-eyebrow">Bespoke Family Itinerary</div>
-  <h1>Chiang Mai<br><em>Rose of the North</em></h1>
-  <div class="hero-sub">Seven days walking the Lanna Kingdom</div>
-  <div class="hero-divider"></div>
-  <div class="hero-meta">
-    <span>&#x1F5D3; Early May 2026</span>
-    <span>&#x1F468;&#x200D;&#x1F469;&#x200D;&#x1F467;&#x200D;&#x1F466; 5 Travelers</span>
-    <span>&#x1F6B6; 8-10 mi / day</span>
-    <span>&#x1F321; 32-36&#xB0;C</span>
-  </div>
+<div class="hero-ey" data-t="0">Bespoke Family Itinerary</div>
+<h1 data-t="1">Chiang Mai<br><em>Rose of the North</em></h1>
+<div class="hero-sub" data-t="2">Seven days &middot; Five travelers &middot; One ancient city</div>
+<div class="hero-div"></div>
+<div class="hero-meta"><span data-t="3">&#x1F5D3; Early May 2026</span><span data-t="4">&#x1F468;&#x200D;&#x1F469;&#x200D;&#x1F467;&#x200D;&#x1F466; 5 Travelers</span><span data-t="5">&#x1F697; Private van recommended</span><span data-t="6">&#x1F321; 32&ndash;36&deg;C</span></div>
 </header>
-
-<nav class="day-nav"><div class="day-nav-inner">
-  <a href="#essentials">Essentials</a><a href="#map-section">Map</a><a href="#day1">Day 1</a><a href="#day2">Day 2</a><a href="#day3">Day 3</a><a href="#day4">Day 4</a><a href="#day5">Day 5</a><a href="#day6">Day 6</a><a href="#day7">Day 7</a><a href="#budget-summary">Budget</a>
+ 
+<nav class="dn"><div class="inner">
+<a href="#ms" data-t="7">Map</a><a href="#d1" data-t="8">Day 1</a><a href="#d2" data-t="9">Day 2</a><a href="#d3" data-t="10">Day 3</a><a href="#d4" data-t="11">Day 4</a><a href="#d5" data-t="12">Day 5</a><a href="#d6" data-t="13">Day 6</a><a href="#d7" data-t="14">Day 7</a><a href="#bsum" data-t="15">Budget</a>
 </div></nav>
-
-<main class="content">
-
-<section id="essentials">
-<div class="weather-card">
-  <h3>&#x2600;&#xFE0F; May Weather</h3>
-  <p><strong>32-36&#xB0;C, humidity ~67%.</strong> Afternoon thunderstorms ~11 days/month - heavy but short. Mornings are golden for walking. Carry an umbrella daily.</p>
+ 
+<main class="ct">
+<div class="wc"><h3 data-t="16">&#x2600;&#xFE0F; May Weather</h3><p data-t="17"><strong>32&ndash;36&deg;C, humidity ~67%.</strong> Afternoon thunderstorms ~11 days/month. Mornings best for outdoor activities. Carry umbrella daily. Mountains are cooler.</p></div>
+<div class="card"><h2 data-t="18">&#x26A1; Quick Reference</h2>
+<div class="ig">
+<div class="ii"><div class="lb" data-t="19">Party</div><div class="vl" data-t="20">5 travelers</div><div class="nt" data-t="21">Father &amp; mother, young couple, young adult</div></div>
+<div class="ii"><div class="lb" data-t="22">Transport</div><div class="vl" data-t="23">Private van + driver</div><div class="nt" data-t="24">~&#xE3F;1,500&ndash;2,500/day for mountain days</div></div>
+<div class="ii"><div class="lb" data-t="25">Best Start</div><div class="vl" data-t="26">7:00&ndash;8:00 AM</div><div class="nt" data-t="27">Beat the heat</div></div>
+<div class="ii"><div class="lb" data-t="28">Currency</div><div class="vl" data-t="29">Thai Baht &#xE3F;</div><div class="nt" data-t="30">~&#xE3F;36 = $1 USD &middot; ~&#xE3F;27 = 1 SGD</div></div>
+<div class="ii"><div class="lb" data-t="31">Stay</div><div class="vl" data-t="32">Nimman area</div><div class="nt" data-t="33">Near cafes, mountains &amp; malls</div></div>
+<div class="ii"><div class="lb" data-t="34">Before You Fly</div><div class="vl" data-t="35">TDAC Required</div><div class="nt" data-t="36">Digital arrival card &mdash; 72 hrs before</div></div>
+</div></div>
+<div class="gn"><h3 data-t="37">&#x1F697; Transport Strategy</h3><p data-t="38"><strong>Days 1, 2, 5:</strong> Walk + Grab (city). <strong>Days 3, 4, 6:</strong> Private van with driver (mountains). <strong>Day 7:</strong> Van to airport.</p></div>
+ 
+<section id="ms"><h2 data-t="39">&#x1F5FA; Your 7-Day Route</h2><div id="im"></div>
+<div class="ml">
+<span><span class="dt" style="background:#C4956A"></span><span data-t="40">D1 Nimman</span></span>
+<span><span class="dt" style="background:#6366F1"></span><span data-t="41">D2 Old City</span></span>
+<span><span class="dt" style="background:#059669"></span><span data-t="42">D3 Sticky Falls</span></span>
+<span><span class="dt" style="background:#DC2626"></span><span data-t="43">D4 Mountains</span></span>
+<span><span class="dt" style="background:#7C3AED"></span><span data-t="44">D5 Caf&eacute;s</span></span>
+<span><span class="dt" style="background:#EA580C"></span><span data-t="45">D6 Mae Wang</span></span>
+<span><span class="dt" style="background:#0891B2"></span><span data-t="46">D7 Temple</span></span>
+</div></section>
+ 
+<!-- DAY 1 -->
+<section class="ds" id="d1"><div class="dv"><span>&#x2726;</span></div>
+<div class="db"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNE2kJpeP0wwsXiUAKd-WhIpbfldn1zqeZ1TJAw3UkI4LXXt3IB7KknU5JgaNVXJr-z9ecW7u1UqcHTCD6J63b2JlEHa6HxfIs7pfJ1yoHrKSu5rLr8Dhn3_Hf_31nBizgnrUCqRalEKbUlOVw=s4800-w800-h400" alt="One Nimman" loading="lazy"><div class="ov"><div class="dl" data-t="47">Day 01</div><div class="dt" data-t="48">Arrival + Nimman Area</div></div></div>
+<div class="dss"><div class="dst" data-t="50">&#x2708; <strong>Arrival day</strong></div><div class="dst" data-t="51">&#x1F6B6; <strong>Easy walking</strong></div><div class="dst" data-t="52">&#x1F37D; First khao soi</div></div>
+<span class="nt2" data-t="49">Nimmanhaemin &middot; Easy Day</span>
+<div class="tl">
+<div class="ti"><div class="tt" data-t="53">Afternoon</div><div class="tn" data-t="54">Check In &amp; Nimman Walk</div><div class="td" data-t="55">Settle into your hotel, then stroll <strong>Nimmanhaemin Road</strong> &mdash; Chiang Mai's creative hub. Sois 1&ndash;17 are packed with design boutiques, indie galleries, and cafes in converted teak houses.</div></div>
+<div class="ti"><div class="tt" data-t="56">4:00 PM &mdash; Shopping</div><div class="tn" data-t="57">One Nimman &amp; Maya Mall</div><div class="ta">&#x1F4CD; <a href="https://maps.google.com/?q=One+Nimman" target="_blank">One Nimman</a> &middot; <a href="https://maps.google.com/?q=Maya+Mall+Chiang+Mai" target="_blank">Maya</a></div><div class="td" data-t="58"><strong>One Nimman:</strong> open-air complex with vintage-industrial charm, pop-up shops, live music. <strong>Maya Mall:</strong> modern mall with rooftop terrace &amp; mountain views. Both walkable.</div>
+<div class="ph"><a href="https://www.google.com/search?q=One+Nimman+Chiang+Mai&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/places/ANXAkqFL8GzKOjECSU9R2rCFFJe8Ds5A7w18ST2C_OkopjemTVZ4abNg10EPCog_3VLddVt6HfSzcv08dKihP8JgufQIzyYtRp0U9O8=s4800-w400-h300" alt="One Nimman" loading="lazy"><span>One Nimman</span></a><a href="https://www.google.com/search?q=Maya+Mall+Chiang+Mai&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGl_UFFIzd3sSlQhJz3GZx_3aAF5VQRZxplk9w5VfjTIc3xqaRWmzbnWVgbZYqYnM6EZ-lT7vuakx4Yt2Olevnv6z1Bm_E5cOEm1ZrecH0hYNFxKfXNwyv80oe_RozH_b0RhkCuPfr2anKcHuQ=s4800-w400-h300" alt="Maya" loading="lazy"><span>Maya Mall</span></a></div></div>
+<div class="ti m"><div class="tt" data-t="59">7:00 PM &mdash; Dinner</div><div class="tn" data-t="60">Khao Soi Mae Sai</div><div class="ta">&#x1F4CD; Soi Ratchaphuek &middot; <a href="https://maps.google.com/?q=Khao+Soi+Maesai+Chiang+Mai" target="_blank">Map</a></div><div class="td" data-t="61"><strong>Michelin Guide-listed.</strong> The best khao soi in Chiang Mai &mdash; rich coconut curry broth, tender meat, crispy noodle topping. Also try the nam ngiao noodles. <strong>&#xE3F;50&ndash;80/person. Closed Sunday.</strong></div>
+<div class="ph"><a href="https://www.google.com/search?q=Khao+Soi+Mae+Sai+Chiang+Mai&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNF9U987c_6enlK6jCEt4rg-8s7NZepVPGkimLGTN7zQnO1T6MXNmsOCqnf7GD4Bf-CNBZGxrkLimRLwec6ZOwlNECJ1erRwxYPFtpGFzvDO8iffNPrBVcQzmNJjjQVPpwXWQlUgjzZ49-VxYQ=s4800-w400-h300" alt="Khao Soi" loading="lazy"><span>Khao Soi</span></a></div></div>
 </div>
-<div class="card">
-  <h2>&#x26A1; Quick Reference</h2>
-  <div class="info-grid">
-    <div class="info-item"><div class="label">Party</div><div class="value">5 travelers</div><div class="note">Father &amp; mother, young couple, young adult</div></div>
-    <div class="info-item"><div class="label">Daily Walking</div><div class="value">8-10 miles</div><div class="note">~4-5 hrs of movement</div></div>
-    <div class="info-item"><div class="label">Best Start</div><div class="value">6:30 AM</div><div class="note">Beat the heat</div></div>
-    <div class="info-item"><div class="label">Currency</div><div class="value">Thai Baht &#xE3F;</div><div class="note">~&#xE3F;36 = $1 USD &middot; ~&#xE3F;27 = 1 SGD</div></div>
-    <div class="info-item"><div class="label">Stay</div><div class="value">Old City area</div><div class="note">Walking distance to everything</div></div>
-    <div class="info-item"><div class="label">Before You Fly</div><div class="value">TDAC Required</div><div class="note">Digital arrival card - 72 hrs before</div></div>
-  </div>
-</div>
-<div class="group-note">
-  <h3>&#x1F468;&#x200D;&#x1F469;&#x200D;&#x1F467;&#x200D;&#x1F466; Split Option Every Day</h3>
-  <p>Each day has a midday split: parents can rest or enjoy a massage while the younger group takes a faster route.</p>
-</div>
-</section>
-
-<!-- ===== INTERACTIVE MAP ===== -->
-<section id="map-section">
-  <h2>&#x1F5FA; Your 7-Day Route</h2>
-  <div id="itinerary-map"></div>
-  <div class="map-legend">
-    <span><span class="dot" style="background:#C4956A"></span> Day 1 - Old City</span>
-    <span><span class="dot" style="background:#6366F1"></span> Day 2 - Beyond Walls</span>
-    <span><span class="dot" style="background:#059669"></span> Day 3 - Sacred Mountain</span>
-    <span><span class="dot" style="background:#DC2626"></span> Day 4 - Cooking &amp; Tunnels</span>
-    <span><span class="dot" style="background:#7C3AED"></span> Day 5 - Nimman</span>
-    <span><span class="dot" style="background:#EA580C"></span> Day 6 - Deep Lanna</span>
-    <span><span class="dot" style="background:#0891B2"></span> Day 7 - Farewell</span>
-  </div>
-</section>
-
-<!-- ===== DAY 1 ===== -->
-<section class="day-section" id="day1">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="day-banner"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEviJtGZGj4e01Qxc7eKRueGKrhjIj33_32NuzmgHq2-hOfBhYQp7mHQ0rrtsRZW3SHc1OCqRQfW3K285sPQKVR7YUgAjKAcrYekJkoB_U9oy5oTW4WgQlHMRxox4Walh2j2ZuVmoy_x9hTTdkoEAPQFg=s4800-w900-h400" alt="Chiang Mai Temple" loading="lazy"><div class="day-banner-overlay"><div class="day-label">Day 01</div><div class="day-title">The Sacred Old City</div></div></div>
-<div class="day-stats"><div class="day-stat">&#x1F6B6; <strong>~9.5 mi</strong></div><div class="day-stat">&#x23F1; <strong>~5 hrs</strong></div><div class="day-stat">&#x1F321; Shelter 12-3</div></div>
-<span class="neighborhood-tag">Old City &middot; Within the Moat</span>
-<div class="timeline">
-
-<div class="tl-item meal"><div class="tl-time">6:30 AM - Breakfast</div><div class="tl-title">Khai Krata Lert Rot</div><div class="tl-addr">&#x1F4CD; Mun Mueang Rd &middot; <a href="https://maps.google.com/?q=Khai+Krata+Lert+Rot+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Sizzling Thai eggs</strong> with minced pork &amp; garlic. Where students eat at 7 AM. &#xE3F;40-60/person.</div>
-<div class="alt"><div class="alt-label">If Closed</div><p><strong>Ja Ae Congee</strong> - near old Night Bazaar. Huge bowls &#xE3F;30-60.</p></div></div>
-
-<div class="tl-item culture"><div class="tl-time">7:30 AM</div><div class="tl-title">Wat Chiang Man</div><div class="tl-addr">&#x1F4CD; Ratchapakhinai Rd &middot; <a href="https://maps.google.com/?q=Wat+Chiang+Man+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Oldest temple (1296).</strong> 15 stone elephants at the chedi base. Crystal Buddha. Uncrowded early morning.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Wat+Chiang+Man+elephant+chedi&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEviJtGZGj4e01Qxc7eKRueGKrhjIj33_32NuzmgHq2-hOfBhYQp7mHQ0rrtsRZW3SHc1OCqRQfW3K285sPQKVR7YUgAjKAcrYekJkoB_U9oy5oTW4WgQlHMRxox4Walh2j2ZuVmoy_x9hTTdkoEAPQFg=s4800-w400-h300" alt="Thai Temple" loading="lazy"><span>Elephant Chedi</span></a><a href="https://www.google.com/search?q=Wat+Chiang+Man+temple&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFDVDI_k6_TjCxcLN0_PnUnHD1_HW5saJ7KaQhF8eEJpllNpdRbiDBoOcAQJOH1K85dHsCTs3rWGCM5Ll2uiS3KJzPVW-R61TCNaAVvavncm4uxW-ugjEcbloaEuwKOM_2nu9PvrMMArrFcog=s4800-w400-h300" alt="Temple Grounds" loading="lazy"><span>Temple Grounds</span></a></div>
-<a href="https://www.google.com/search?q=Wat+Chiang+Man+Chiang+Mai&tbm=isch" target="_blank" class="gallery-link">&#x1F4F8; Full gallery &#x2192;</a></div>
-
-<div class="walk">&#x1F6B6; 8-min walk south</div>
-
-<div class="tl-item culture"><div class="tl-time">8:45 AM</div><div class="tl-title">Wat Phan Tao - The Teak Temple</div><div class="tl-addr">&#x1F4CD; Phra Pokklao Rd &middot; <a href="https://maps.google.com/?q=Wat+Phan+Tao+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>28 giant teak pillars.</strong> Gold peacock above entrance. Originally a royal palace.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Wat+Phan+Tao+teak+Chiang+Mai&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNF14qA4_EEtrWECY3Xc46evtk6z3Qoq3Qlp_sEVSxGmbE9Brd8E7Uzk9i7Fqz1Ol0DbQKWq3vetteLZYtR0-mMQcaMNU6O-UiBtPDYQm91DqNi6S41ls5eBvNTU18tfNfNYveD9mYtkXFO2=s4800-w400-h300" alt="Teak Viharn" loading="lazy"><span>Teak Viharn</span></a></div></div>
-
-<div class="tl-item culture"><div class="tl-time">9:30 AM</div><div class="tl-title">Wat Chedi Luang</div><div class="tl-addr">&#x1F4CD; 103 Phra Pokklao Rd &middot; <a href="https://maps.google.com/?q=Wat+Chedi+Luang+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Once 82m tall</strong> - toppled by 1545 earthquake. Stone nagas, free Monk Chat. &#xE3F;40.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Wat+Chedi+Luang+ruins&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHX9Y6n5tGB4e2qma4knVNOTSNmKjo8HFxXKKiUHcp8vZ-DHRPZP34IEOCDcQvt-ObRWA0VHXAL9zzoxTfbSkOqRqFjXF3gF73godqz8N16sPVUQXMvUSihazzOzqx46xyJLTlM93_yqG-vog=s4800-w400-h300" alt="Chedi" loading="lazy"><span>Great Chedi</span></a><a href="https://www.google.com/search?q=Wat+Chedi+Luang+naga&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFAs7RX07kPR3r8Dn1lYc9Vdf2Sxtz5J9qdG1sjCEW4JbVgbUDFvBg1XeZ3qInu7ltJEljaMgKGUaUVmZYshNuwBF07Lpeq9gVK5jjvqH_ynSxbKKX5QJps2S6uewkGTMR8cVk45zqO3hFd-8zo1tGqrw=s4800-w400-h300" alt="Naga" loading="lazy"><span>Naga Staircase</span></a></div>
-<a href="https://www.google.com/search?q=Wat+Chedi+Luang+Chiang+Mai&tbm=isch" target="_blank" class="gallery-link">&#x1F4F8; Full gallery &#x2192;</a></div>
-
-<div class="tl-item"><div class="tl-time">11:00 AM - Museum</div><div class="tl-title">Lanna Folklife Museum</div><div class="tl-addr">&#x1F4CD; Opposite Three Kings Monument &middot; <a href="https://maps.google.com/?q=Lanna+Folklife+Museum" target="_blank">Map</a></div><div class="tl-desc"><strong>Life-size Lanna village dioramas.</strong> Air-con refuge. Wed-Sun 8:30-4:30. &#xE3F;90.</div></div>
-
-<div class="tl-item meal"><div class="tl-time">12:30 PM - Lunch</div><div class="tl-title">Khao Soi Khun Yai</div><div class="tl-addr">&#x1F4CD; Sri Poom Rd &middot; <a href="https://maps.google.com/?q=Khao+Soi+Khun+Yai" target="_blank">Map</a></div><div class="tl-desc"><strong>The definitive khao soi.</strong> Coconut curry noodle soup. City's best. &#xE3F;50-80/person.</div>
-<div class="photos"><a href="https://www.google.com/search?q=khao+soi+chiang+mai&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGYOtcma1ZOpyBFGU_zJjZMTdkv4zMp8n6Jl0BnjCKh67yf4KrzDptTJnXFtGnRbLp2hfHh8HItwcF2BuwmB56SNT0gxUJZivW--c2bZUrw53r5iWX27wETJKOiKveo9vScGCH7EcKWu72N_A=s4800-w400-h300" alt="Khao Soi" loading="lazy"><span>Khao Soi</span></a></div>
-<div class="alt"><div class="alt-label">If Full</div><p><strong>Khao Soi Mae Sai</strong> - Santitham. Equally good, less touristy.</p></div></div>
-
-<div class="tl-item"><div class="tl-time">1:30-3:00 PM - Split</div><div class="tl-title">Midday Break</div><div class="tl-desc"><strong>Parents:</strong> Thai massage (&#xE3F;250-400/hr).<br><strong>Younger:</strong> Coffee at <strong>Akha Ama</strong> or <strong>Ristr8to</strong>.</div></div>
-
-<div class="tl-item culture"><div class="tl-time">3:30 PM</div><div class="tl-title">Wat Phra Singh</div><div class="tl-addr">&#x1F4CD; 2 Samlarn Rd &middot; <a href="https://maps.google.com/?q=Wat+Phra+Singh+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Most revered temple.</strong> Best surviving Lanna murals anywhere. Golden chedi. &#xE3F;20.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Wat+Phra+Singh+golden+chedi&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFDVDI_k6_TjCxcLN0_PnUnHD1_HW5saJ7KaQhF8eEJpllNpdRbiDBoOcAQJOH1K85dHsCTs3rWGCM5Ll2uiS3KJzPVW-R61TCNaAVvavncm4uxW-ugjEcbloaEuwKOM_2nu9PvrMMArrFcog=s4800-w400-h300" alt="Golden Chedi" loading="lazy"><span>Golden Chedi</span></a><a href="https://www.google.com/search?q=Wat+Phra+Singh+murals&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHX9Y6n5tGB4e2qma4knVNOTSNmKjo8HFxXKKiUHcp8vZ-DHRPZP34IEOCDcQvt-ObRWA0VHXAL9zzoxTfbSkOqRqFjXF3gF73godqz8N16sPVUQXMvUSihazzOzqx46xyJLTlM93_yqG-vog=s4800-w400-h300" alt="Buddha" loading="lazy"><span>Phra Singh</span></a></div></div>
-
-<div class="tl-item"><div class="tl-time">5:00 PM</div><div class="tl-title">Old City Walls &amp; Moat Loop</div><div class="tl-desc">Golden hour walk along the moat. Ancient brick ramparts. ~2 mi loop.</div></div>
-
-<div class="tl-item meal"><div class="tl-time">7:00 PM - Dinner</div><div class="tl-title">Dash! Teak House</div><div class="tl-addr">&#x1F4CD; 38/2 Moon Muang Rd &middot; <a href="https://maps.google.com/?q=Dash+Restaurant+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Northern Thai Platter</strong> - sai oua, nam prik, laab. Farm-to-fork. &#xE3F;200-350.</div>
-<div class="alt"><div class="alt-label">If Full</div><p><strong>Coconut Shell</strong> - Ratchamanka Rd. Curries in coconut shells. &#xE3F;100-180.</p></div></div>
-</div>
-<div class="budget"><h4>Day 1 (per person)</h4><div class="budget-row"><span class="cat">Meals</span><span class="amt">&#xE3F;440</span></div><div class="budget-row"><span class="cat">Entries + drinks</span><span class="amt">&#xE3F;300</span></div><div class="budget-total"><span class="cat">Total</span><span class="amt">~&#xE3F;740 (~$21)</span></div></div>
-</section>
-
+<div class="bg"><h4 data-t="62">Day 1 (per person)</h4><div class="br"><span class="ca" data-t="63">Dinner</span><span class="am">&#xE3F;80</span></div><div class="br"><span class="ca" data-t="64">Drinks + snacks</span><span class="am">&#xE3F;200</span></div><div class="bt"><span class="ca" data-t="65">Total</span><span class="am">~&#xE3F;280</span></div></div></section>
+ 
 <!-- DAY 2 -->
-<section class="day-section" id="day2">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="day-banner"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFwd8xSYjvaw5Z9HF7-yt3JsgulQNlbj5MjZY5gFDSeAIbeEeHOL5QKk1UdQB0Y0198F8c2tirlCv3AGSorn47REvkVlqpCemk1Zj6BbQSIb2xhVMlCN_6Swan3AyCSXKIVZ5R3qfHglOq4=s4800-w900-h400" alt="Thai Architecture" loading="lazy"><div class="day-banner-overlay"><div class="day-label">Day 02</div><div class="day-title">Beyond the Walls</div></div></div>
-<div class="day-stats"><div class="day-stat">&#x1F6B6; <strong>~8.5 mi</strong></div><div class="day-stat">&#x23F1; <strong>~4.5 hrs</strong></div><div class="day-stat">&#x1F327; Afternoon shower</div></div>
-<span class="neighborhood-tag">Wualai &middot; Night Bazaar</span>
-<div class="timeline">
-<div class="tl-item meal"><div class="tl-time">6:30 AM - Breakfast</div><div class="tl-title">Kiat Ocha</div><div class="tl-addr">&#x1F4CD; Inthwarorot Rd &middot; <a href="https://maps.google.com/?q=Kiat+Ocha+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc">Legendary <strong>Hainanese chicken rice</strong>. Killer ginger-chili sauce. &#xE3F;50-65.</div></div>
-<div class="tl-item culture"><div class="tl-time">7:45 AM</div><div class="tl-title">Wat Sri Suphan - Silver Temple</div><div class="tl-addr">&#x1F4CD; 100 Wualai Rd &middot; <a href="https://maps.google.com/?q=Wat+Sri+Suphan+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Entire temple in hand-hammered silver.</strong> Even the floor sparkles.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Wat+Sri+Suphan+Silver+Temple&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNF14qA4_EEtrWECY3Xc46evtk6z3Qoq3Qlp_sEVSxGmbE9Brd8E7Uzk9i7Fqz1Ol0DbQKWq3vetteLZYtR0-mMQcaMNU6O-UiBtPDYQm91DqNi6S41ls5eBvNTU18tfNfNYveD9mYtkXFO2=s4800-w400-h300" alt="Silver Temple" loading="lazy"><span>Silver Ubosot</span></a></div></div>
-<div class="tl-item culture"><div class="tl-time">9:15 AM</div><div class="tl-title">Wat Jet Lin - Hidden Gem</div><div class="tl-desc"><strong>Lotus pond, bamboo bridge.</strong> Former royal monastery. Zero tourists.</div></div>
-<div class="tl-item"><div class="tl-time">10:00 AM</div><div class="tl-title">Wualai Silversmith Workshops</div><div class="tl-desc">Watch artisans hammer silver bowls. Buy direct from makers.</div></div>
-<div class="tl-item"><div class="tl-time">11:00 AM</div><div class="tl-title">City Arts &amp; Cultural Centre</div><div class="tl-addr">&#x1F4CD; Three Kings Monument &middot; <a href="https://maps.google.com/?q=Chiang+Mai+City+Arts+Cultural+Centre" target="_blank">Map</a></div><div class="tl-desc">1924 colonial building. Chiang Mai history. <strong>Air-con. &#xE3F;90.</strong></div></div>
-<div class="tl-item meal"><div class="tl-time">12:30 PM - Lunch</div><div class="tl-title">SP Chicken</div><div class="tl-addr">&#x1F4CD; 9/1 Sam Lan Rd &middot; <a href="https://maps.google.com/?q=SP+Chicken+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Rotisserie chicken</strong> over charcoal. Sticky rice + papaya salad. &#xE3F;60-90.</div>
-<div class="photos"><a href="https://www.google.com/search?q=SP+Chicken+Chiang+Mai&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/places/ANXAkqENxU4d1raGBmQv8ULGIUYEuM9hrn9BfipaVJrmf41nWzZSTdbFWprl1tFnW5eJvi97CmTZGw_ldm8GQsLzVWXkuVxAhAHpIOA=s4800-w400-h300" alt="Thai food" loading="lazy"><span>Charcoal Chicken</span></a></div></div>
-<div class="tl-item"><div class="tl-time">2:00-4:00 PM</div><div class="tl-title">Afternoon Rest</div><div class="tl-desc"><strong>Parents:</strong> Rest / massage. <strong>Younger:</strong> Graph Caf&#xE9; or Roast8ry.</div></div>
-<div class="tl-item culture"><div class="tl-time">4:30 PM</div><div class="tl-title">Wat Lok Moli &amp; Wat Buppharam</div><div class="tl-desc"><strong>Lok Moli:</strong> oldest chedis, faces north. <strong>Buppharam:</strong> extraordinary wood carvings.</div></div>
-<div class="tl-item meal"><div class="tl-time">6:30 PM - Dinner</div><div class="tl-title">Night Bazaar Food Courts</div><div class="tl-addr">&#x1F4CD; Chang Khlan Rd &middot; <a href="https://maps.google.com/?q=Chiang+Mai+Night+Bazaar" target="_blank">Map</a></div><div class="tl-desc">Skip tourist stalls - <strong>rear food courts</strong>. Each vendor does one dish. &#xE3F;80-150.</div></div>
+<section class="ds" id="d2"><div class="dv"><span>&#x2726;</span></div>
+<div class="db"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFxINPYpRgPiI1oDhRI74YGdilbjJZsaj6S79sSvR3ezrNDKlZjE33APzuPY6zywEZo81QwWS5ZNiP06pQscCtlkjCoi2GBfQMsDxFFDbUMpuYMX_mg_TALvLTRPsqxSokyIlTxDsnCi5sXog=s4800-w800-h400" alt="Warorot" loading="lazy"><div class="ov"><div class="dl" data-t="66">Day 02</div><div class="dt" data-t="67">Old City &amp; Markets</div></div></div>
+<div class="dss"><div class="dst" data-t="69">&#x1F6B6; <strong>Walking day</strong></div><div class="dst" data-t="70">&#x1F6D2; <strong>Markets</strong></div><div class="dst" data-t="71">&#x1F319; Sunday Walking Street</div></div>
+<span class="nt2" data-t="68">Old City &middot; Warorot &middot; Ratchadamnoen</span>
+<div class="tl">
+<div class="ti c"><div class="tt" data-t="72">8:00 AM &mdash; Temples</div><div class="tn" data-t="73">Old City Temple Walk</div><div class="td" data-t="74">Explore the moat-enclosed Old City. Hit <strong>Wat Chedi Luang</strong> (ruined 82m chedi, free Monk Chat), <strong>Wat Phra Singh</strong> (finest Lanna murals), and <strong>Wat Phan Tao</strong> (teak temple). All walkable.</div></div>
+<div class="ti m"><div class="tt" data-t="75">11:00 AM &mdash; Market</div><div class="tn" data-t="76">Warorot Market</div><div class="ta">&#x1F4CD; Wichayanon Rd &middot; <a href="https://maps.google.com/?q=Warorot+Market" target="_blank">Map</a></div><div class="td" data-t="77"><strong>Chiang Mai's oldest public market.</strong> Ground floor: dried fruit, spices, local snacks. Upper floors: textiles. Try the mango sticky rice and Thai iced tea. <strong>Open daily 6 AM&ndash;5 PM.</strong></div></div>
+<div class="ti"><div class="tt" data-t="78">1:00&ndash;5:00 PM &mdash; Rest</div><div class="tn" data-t="79">Hotel + Coffee</div><div class="td" data-t="80"><strong>Parents:</strong> Rest or Thai massage. <strong>Younger group:</strong> Explore specialty coffee &mdash; <strong>Akha Ama</strong> or <strong>Ristr8to</strong>.</div></div>
+<div class="ti m"><div class="tt" data-t="81">5:00 PM &mdash; Night Market</div><div class="tn" data-t="82">Sunday Walking Street</div><div class="ta">&#x1F4CD; Ratchadamnoen Rd &middot; <a href="https://maps.google.com/?q=Sunday+Walking+Street+Chiang+Mai" target="_blank">Map</a></div><div class="td" data-t="83"><strong>Chiang Mai's legendary Sunday market.</strong> Entire Old City main road closes for hundreds of vendors. Crafts, textiles, silver, street food. Arrive 5 PM &mdash; packed by 7. <strong>Sundays only.</strong></div>
+<div class="ph"><a href="https://www.google.com/search?q=Chiang+Mai+Sunday+Walking+Street&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHK5yBpssad_-kcEMvqVs9P6wOe2w25O0kivQ0XUIaUj4xgUK1ZLmhpSvy_4mLNqQR9eeCVI1SU4ZzAojP_ovCG7Oxf7eNjH75iLnZD3GLwzyB2mAQb6Q-G9FRgXpWBScPLwGhMnz8aS445_RooKDHy=s4800-w400-h300" alt="Sunday Market" loading="lazy"><span>Sunday Market</span></a></div>
+<div class="al"><div class="al-l" data-t="84">If Not Sunday</div><p data-t="85">Visit the <strong>Saturday Walking Street</strong> on Wualai Rd or the <strong>Night Bazaar</strong> food courts.</p></div></div>
 </div>
-<div class="budget"><h4>Day 2 (per person)</h4><div class="budget-row"><span class="cat">Meals</span><span class="amt">&#xE3F;305</span></div><div class="budget-row"><span class="cat">Entries + drinks</span><span class="amt">&#xE3F;210</span></div><div class="budget-total"><span class="cat">Total</span><span class="amt">~&#xE3F;515 (~$14)</span></div></div>
-</section>
-
+<div class="bg"><h4 data-t="86">Day 2 (per person)</h4><div class="br"><span class="ca" data-t="87">Meals</span><span class="am">&#xE3F;300</span></div><div class="br"><span class="ca" data-t="88">Market food + shopping</span><span class="am">&#xE3F;400</span></div><div class="bt"><span class="ca" data-t="228">Total</span><span class="am">~&#xE3F;700</span></div></div></section>
+ 
 <!-- DAY 3 -->
-<section class="day-section" id="day3">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="day-banner"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHaCwuIi52gRkAVtVZQRUgtzKNKdRNFIle08g5IchT8YesQ2nhqq_hCOR6b2qBLA3fvYNlhlU-rmDWTwfivht1FCUfgEQe-arBe8I5pijAO7Bn-zS0x4nXMhJ5O2lRemrAWnjueisy16wMoPEE=s4800-w900-h400" alt="Golden Temple" loading="lazy"><div class="day-banner-overlay"><div class="day-label">Day 03</div><div class="day-title">The Sacred Mountain</div></div></div>
-<div class="day-stats"><div class="day-stat">&#x1F6B6; <strong>~8 mi</strong> + stairs</div><div class="day-stat">&#x1F690; Songthaew</div><div class="day-stat">&#x1F3AD; Khantoke tonight</div></div>
-<span class="neighborhood-tag">Doi Suthep &middot; Suan Dok</span>
-<div class="timeline">
-<div class="tl-item meal"><div class="tl-time">6:00 AM</div><div class="tl-title">Quick Breakfast &amp; Go</div><div class="tl-desc"><strong>Nana Bakery</strong> or hotel. Reach Doi Suthep before tour buses.</div></div>
-<div class="tl-item culture"><div class="tl-time">7:30 AM</div><div class="tl-title">Wat Phra That Doi Suthep</div><div class="tl-addr">&#x1F4CD; Doi Suthep Mountain &middot; <a href="https://maps.google.com/?q=Wat+Phra+That+Doi+Suthep" target="_blank">Map</a></div><div class="tl-desc"><strong>Northern Thailand's most sacred temple.</strong> 306-step Naga Staircase. Panoramic views. Songthaew &#xE3F;40-60. Entry &#xE3F;30.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Doi+Suthep+golden+chedi&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEviJtGZGj4e01Qxc7eKRueGKrhjIj33_32NuzmgHq2-hOfBhYQp7mHQ0rrtsRZW3SHc1OCqRQfW3K285sPQKVR7YUgAjKAcrYekJkoB_U9oy5oTW4WgQlHMRxox4Walh2j2ZuVmoy_x9hTTdkoEAPQFg=s4800-w400-h300" alt="Doi Suthep" loading="lazy"><span>Golden Chedi</span></a><a href="https://www.google.com/search?q=Doi+Suthep+naga+staircase&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFAs7RX07kPR3r8Dn1lYc9Vdf2Sxtz5J9qdG1sjCEW4JbVgbUDFvBg1XeZ3qInu7ltJEljaMgKGUaUVmZYshNuwBF07Lpeq9gVK5jjvqH_ynSxbKKX5QJps2S6uewkGTMR8cVk45zqO3hFd-8zo1tGqrw=s4800-w400-h300" alt="Steps" loading="lazy"><span>306 Steps</span></a></div></div>
-<div class="tl-item culture"><div class="tl-time">10:30 AM</div><div class="tl-title">Wat Pha Lat - Jungle Temple</div><div class="tl-desc"><strong>Stone ruins in the jungle.</strong> Young group hikes down (45 min). Parents ride songthaew.</div></div>
-<div class="tl-item culture"><div class="tl-time">11:30 AM</div><div class="tl-title">Wat Suan Dok</div><div class="tl-addr">&#x1F4CD; Suthep Rd &middot; <a href="https://maps.google.com/?q=Wat+Suan+Dok+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Whitewashed royal chedis.</strong> Buddhist university - monks welcome conversation.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Wat+Suan+Dok+white+chedis&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNF14qA4_EEtrWECY3Xc46evtk6z3Qoq3Qlp_sEVSxGmbE9Brd8E7Uzk9i7Fqz1Ol0DbQKWq3vetteLZYtR0-mMQcaMNU6O-UiBtPDYQm91DqNi6S41ls5eBvNTU18tfNfNYveD9mYtkXFO2=s4800-w400-h300" alt="White Chedis" loading="lazy"><span>Royal Chedis</span></a></div></div>
-<div class="tl-item meal"><div class="tl-time">12:30 PM - Lunch</div><div class="tl-title">Rumpeng Isaan Food</div><div class="tl-desc"><strong>Plastic stools, incredible spice.</strong> Laab, som tum, grilled meats. &#xE3F;60-100.</div></div>
-<div class="tl-item"><div class="tl-time">2:00-5:00 PM</div><div class="tl-title">Rest or Nimman</div><div class="tl-desc">Hotel rest or wander <strong>Nimmanhaemin</strong> - design shops, galleries, cafes.</div></div>
-<div class="tl-item culture"><div class="tl-time">6:30 PM</div><div class="tl-title">Khantoke Dinner</div><div class="tl-addr">&#x1F4CD; Old Chiangmai Cultural Center &middot; <a href="https://maps.google.com/?q=Old+Chiangmai+Cultural+Center" target="_blank">Map</a></div><div class="tl-desc"><strong>Traditional communal dinner + live Lanna music &amp; dance.</strong> Fingernail dance, sword dance, circle dance. Since 1971. <strong>&#xE3F;490/person. Book ahead.</strong></div>
-<div class="photos"><a href="https://www.google.com/search?q=Khantoke+dinner+Chiang+Mai&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGYOtcma1ZOpyBFGU_zJjZMTdkv4zMp8n6Jl0BnjCKh67yf4KrzDptTJnXFtGnRbLp2hfHh8HItwcF2BuwmB56SNT0gxUJZivW--c2bZUrw53r5iWX27wETJKOiKveo9vScGCH7EcKWu72N_A=s4800-w400-h300" alt="Thai food" loading="lazy"><span>Khantoke Feast</span></a><a href="https://www.google.com/search?q=Lanna+traditional+dance&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHX9Y6n5tGB4e2qma4knVNOTSNmKjo8HFxXKKiUHcp8vZ-DHRPZP34IEOCDcQvt-ObRWA0VHXAL9zzoxTfbSkOqRqFjXF3gF73godqz8N16sPVUQXMvUSihazzOzqx46xyJLTlM93_yqG-vog=s4800-w400-h300" alt="Thai culture" loading="lazy"><span>Lanna Dance</span></a></div></div>
+<section class="ds" id="d3"><div class="dv"><span>&#x2726;</span></div>
+<div class="db"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNF_OANUhAQJqFMv_FlQdeKdDY8ZDXydse_jkHvz0Rpap1IQ4xpXQufiQQdaMKLHOzeKEu2AcqKW9aDBlEy1YFUzismj5iscXZrZpowx6IOUZiOcTL7DannmG3GrwZ25QCE7kVm-rFhhE5TJyCg=s4800-w800-h400" alt="Sticky Waterfall" loading="lazy"><div class="ov"><div class="dl" data-t="89">Day 03</div><div class="dt" data-t="90">Sticky Waterfall &amp; Caf&eacute;s</div></div></div>
+<div class="dss"><div class="dst" data-t="92">&#x1F697; <strong>Van day</strong></div><div class="dst" data-t="93">&#x1F4F8; <strong>Instagram spots</strong></div><div class="dst" data-t="94">&#x2615; Caf&eacute; trail</div></div>
+<span class="nt2" data-t="91">Mae Rim &middot; Si Lanna</span>
+<div class="tl">
+<div class="ti c"><div class="tt" data-t="95">8:00 AM &mdash; Nature</div><div class="tn" data-t="96">Bua Tong Sticky Waterfall</div><div class="ta">&#x1F4CD; Si Lanna NP (~1 hr) &middot; <a href="https://maps.google.com/?q=Buatong+Sticky+Waterfall" target="_blank">Map</a></div><div class="td" data-t="97"><strong>Walk UP a waterfall.</strong> Calcium carbonate rocks are naturally grippy. No special shoes needed. Kids to grandparents can do it. Lockers &#xE3F;30. Free entry. <strong>Arrive before 9 AM. Closes 4:30 PM.</strong></div></div>
+<div class="ti m"><div class="tt" data-t="98">12:00 PM &mdash; Lunch</div><div class="tn" data-t="99">Carp Caf&eacute;</div><div class="ta">&#x1F4CD; Hang Dong &middot; <a href="https://maps.google.com/?q=Carp+Cafe+Chiang+Mai" target="_blank">Map</a></div><div class="td" data-t="100"><strong>Dine surrounded by giant koi fish.</strong> Sit on sunken islands with carp swimming around you. Feed fish with baby bottles (&#xE3F;20&ndash;40). Even the bathroom has aquarium walls. <strong>&#xE3F;150&ndash;300/person.</strong></div>
+<div class="ph"><a href="https://www.google.com/search?q=Carp+Cafe+Chiang+Mai&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/places/ANXAkqGTxcHa4BIYFBAgDm4gB1tH0k51iZ6YaerX_VfSarz0ojwLGUcU9giRJf6JkxcvsuENe_NAKcQmVniui2ruB9fAFzRj8WIpBMI=s4800-w400-h300" alt="Carp" loading="lazy"><span>Carp Caf&eacute;</span></a><a href="https://www.google.com/search?q=Chom+Cafe+Chiang+Mai&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFdEUkYqaJ1T4pVvDLYC2t8SUOAShpvnnilGuKADVRE80rwzNKKR7hkoBuOuaaK1oCDeKC7XJaDMAZa6-ChY_rj9lTW-pc6gykV_NrBxFn8tz77L5fGitgWymYvY51m-T8j2Cssb3kkL-1fTt8=s4800-w400-h300" alt="Chom" loading="lazy"><span>Chom Caf&eacute;</span></a></div></div>
+<div class="ti"><div class="tt" data-t="101">2:30 PM &mdash; Caf&eacute;</div><div class="tn" data-t="102">Chom Caf&eacute;</div><div class="ta">&#x1F4CD; Mae Hia &middot; <a href="https://maps.google.com/?q=Chom+Cafe+Chiang+Mai" target="_blank">Map</a></div><div class="td" data-t="103"><strong>Fairytale garden with waterfalls and mist.</strong> Stunning landscaping, live music on weekends. Great tom yum soup. <strong>&#xE3F;200&ndash;400/person.</strong></div></div>
+<div class="ti"><div class="tt" data-t="104">4:30 PM</div><div class="tn" data-t="105">Natura Caf&eacute;</div><div class="td" data-t="106">Pyramid-shaped caf&eacute; near CMU. Cool air-con retreat. Coffee &amp; desserts before heading back.</div></div>
 </div>
-<div class="budget"><h4>Day 3 (per person)</h4><div class="budget-row"><span class="cat">Meals</span><span class="amt">&#xE3F;160</span></div><div class="budget-row"><span class="cat">Khantoke</span><span class="amt">&#xE3F;490</span></div><div class="budget-row"><span class="cat">Transport + entry</span><span class="amt">&#xE3F;150</span></div><div class="budget-total"><span class="cat">Total</span><span class="amt">~&#xE3F;800 (~$22)</span></div></div>
-</section>
-
+<div class="bg"><h4 data-t="107">Day 3 (per person)</h4><div class="br"><span class="ca" data-t="108">Meals + caf&eacute;s</span><span class="am">&#xE3F;600</span></div><div class="br"><span class="ca" data-t="109">Van + driver</span><span class="am">&#xE3F;400</span></div><div class="bt"><span class="ca" data-t="228">Total</span><span class="am">~&#xE3F;1,000</span></div></div></section>
+ 
 <!-- DAY 4 -->
-<section class="day-section" id="day4">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="day-banner"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFNMweDhpucvZpLqJc1rmSLCTHXBLVw5UKnkQ0Jbh7NVh9GZEsQqXnYFfWNTJirrAC1SPNIhPXWVKJyAId8uEQec8Py87V6N4TgdWPr4RescfsB0f58_uuJPdqbeI4PLGs0qZipheT1KuU9xLmfeF-lVA=s4800-w900-h400" alt="Thai cooking" loading="lazy"><div class="day-banner-overlay"><div class="day-label">Day 04</div><div class="day-title">Cooking Class &amp; Tunnels</div></div></div>
-<div class="day-stats"><div class="day-stat">&#x1F6B6; <strong>~9 mi</strong></div><div class="day-stat">&#x1F373; Cooking AM</div><div class="day-stat">&#x1F573;&#xFE0F; Underground PM</div></div>
-<span class="neighborhood-tag">Riverside &middot; Forest</span>
-<div class="timeline">
-<div class="tl-item culture"><div class="tl-time">8:00 AM</div><div class="tl-title">Thai Cooking Class</div><div class="tl-desc"><strong>Market tour + cook 4-5 dishes.</strong> Khao soi, pad thai, green curry, mango sticky rice. &#xE3F;800-1,200/person.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Chiang+Mai+cooking+class&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFajMkRu-hpEsUSpd1jZppp78Z7NUHwKTLi3YY8ylh5WPNRIdX5v4yCRgxkcjsl_ubtfqWTqGhURhbOB3DjECB8TEtG50w0gTm7mIftjkskznB9icJgRpYx1bpqG3zPtFsFnqfTnhYYIqZDRw5kJ8T1pw=s4800-w400-h300" alt="Cooking" loading="lazy"><span>Cooking Class</span></a><a href="https://www.google.com/search?q=Thai+fresh+market+morning&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFCf45s15eyZo9Dvofr4GuGBpz9pw_ol_vVf4aXmXax0eYg_y9ORE-Pk8WD4nwDXK6FtGaYLmdMPix5iOwNDoJXEL9bKxEBfpl9dX-8C_O0TVCV7_pgTR8M_jg0htLaNdR785h1O2VKazH5aVn2CYCoGw=s4800-w400-h300" alt="Market" loading="lazy"><span>Morning Market</span></a></div></div>
-<div class="tl-item"><div class="tl-time">1:00 PM</div><div class="tl-title">Tha Phae Gate to Ping River</div><div class="tl-desc">Walk east from the ceremonial gate. Galleries and antique shops. ~1.2 km.</div></div>
-<div class="tl-item culture"><div class="tl-time">4:30 PM</div><div class="tl-title">Wat Umong - Tunnel Temple</div><div class="tl-addr">&#x1F4CD; Suthep &middot; <a href="https://maps.google.com/?q=Wat+Umong+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Ancient meditation tunnels</strong> with Buddhas underground. Forest, lake, "talking trees." <strong>Free.</strong></div>
-<div class="photos"><a href="https://www.google.com/search?q=Wat+Umong+tunnel+Buddha&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFJ3GEIxMn3mZx7f2Rea-pvJ5yheIiWU_dBpgChYl9JEcNh7sDncJkCX7yEXYQsWYlP8jCtv0sjDIPHZruTSn2Z_v7uKV9Yq8sjKp-3Y-SJ4uU1qfG1KV73HYhYmZEaeldfsShaUq2Js-ZMRw=s4800-w400-h300" alt="Temple" loading="lazy"><span>Meditation Tunnels</span></a></div></div>
-<div class="tl-item meal"><div class="tl-time">7:00 PM - Dinner</div><div class="tl-title">Kiti Panit</div><div class="tl-addr">&#x1F4CD; Tha Phae Rd &middot; <a href="https://maps.google.com/?q=Kiti+Panit+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>1888 teak mansion.</strong> Hanglay curry, steamed fish, tamarind sorbet. &#xE3F;400-600.</div></div>
+<section class="ds" id="d4"><div class="dv"><span>&#x2726;</span></div>
+<div class="db"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNEq4M9tlDL56Sn1GAY8bVjsuBwYfAFUC1D8IYY9xtDqKrNNd6X5nVNcXhwB5S-Qc7y-rlgJ3TSEHyXOW-8-cpWhcLOi2T9ayXGLi5nSVrQqebEKk7vV4tY_10m5IeUG8jxW5u0Yk22_oYzu30SQSqJCIg=s4800-w800-h400" alt="Mon Jam" loading="lazy"><div class="ov"><div class="dl" data-t="110">Day 04</div><div class="dt" data-t="111">Mountain Drive</div></div></div>
+<div class="dss"><div class="dst" data-t="113">&#x1F697; <strong>Van day</strong></div><div class="dst" data-t="114">&#x26F0; <strong>Sa Moeng Loop</strong></div><div class="dst" data-t="115">&#x1F305; Sunset at Ang Kaew</div></div>
+<span class="nt2" data-t="112">Sa Moeng &middot; Mon Cham &middot; CMU</span>
+<div class="tl">
+<div class="ti c"><div class="tt" data-t="116">8:00 AM &mdash; Scenic Drive</div><div class="tn" data-t="117">Sa Moeng Loop</div><div class="td" data-t="118"><strong>One of Thailand's most beautiful drives.</strong> Winding mountain roads through forests and hill tribe villages. Stop at viewpoints. The loop itself is the attraction.</div></div>
+<div class="ti m"><div class="tt" data-t="119">11:00 AM &mdash; Lunch</div><div class="tn" data-t="120">Mon Cham (Mon Jam)</div><div class="ta">&#x1F4CD; Mae Rim &middot; <a href="https://maps.google.com/?q=Mon+Jam+Chiang+Mai" target="_blank">Map</a></div><div class="td" data-t="121"><strong>Mountain-top gardens with panoramic views.</strong> Flower beds, small caf&eacute;s, the famous "hand in the sky" photo spot. Cooler up here. <strong>Entrance &#xE3F;50 per area.</strong></div></div>
+<div class="ti"><div class="tt" data-t="122">2:30 PM &mdash; Relax</div><div class="tn" data-t="123">Huay Tung Tao Lake</div><div class="ta">&#x1F4CD; <a href="https://maps.google.com/?q=Huay+Tung+Tao+Lake" target="_blank">Map</a></div><div class="td" data-t="124"><strong>Lakeside bamboo huts.</strong> Order food, relax with mountain backdrop. Very laid-back, mostly locals.</div>
+<div class="ph"><a href="https://www.google.com/search?q=Huay+Tung+Tao+Lake&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNG61WtxVvKKo7x6fOdLtp_Wqrm1k2KY89QxTrzLWVtwyACegduN5utlUGvre4qgkhh_EWnEbKx2pp280r1p377qFs51GSjC2WtPsFggNZbk4BoCIg1i2SmR2ozfs0M2qNN2jbosHMUbo5LjRw=s4800-w400-h300" alt="Lake" loading="lazy"><span>Lakeside</span></a></div></div>
+<div class="ti"><div class="tt" data-t="125">5:30 PM &mdash; Sunset</div><div class="tn" data-t="126">Ang Kaew Reservoir (CMU)</div><div class="ta">&#x1F4CD; <a href="https://maps.google.com/?q=Ang+Kaew+Reservoir+CMU" target="_blank">Map</a></div><div class="td" data-t="127"><strong>Chiang Mai's most beautiful sunset spot.</strong> The reservoir reflects Doi Suthep mountain. Free entry. <strong>Open 5 AM&ndash;10 PM.</strong></div></div>
 </div>
-<div class="budget"><h4>Day 4 (per person)</h4><div class="budget-row"><span class="cat">Cooking class</span><span class="amt">&#xE3F;1,000</span></div><div class="budget-row"><span class="cat">Dinner + transport</span><span class="amt">&#xE3F;560</span></div><div class="budget-total"><span class="cat">Total</span><span class="amt">~&#xE3F;1,560 (~$43)</span></div></div>
-</section>
-
+<div class="bg"><h4 data-t="128">Day 4 (per person)</h4><div class="br"><span class="ca" data-t="129">Meals</span><span class="am">&#xE3F;400</span></div><div class="br"><span class="ca" data-t="130">Van + entries</span><span class="am">&#xE3F;500</span></div><div class="bt"><span class="ca" data-t="228">Total</span><span class="am">~&#xE3F;900</span></div></div></section>
+ 
 <!-- DAY 5 -->
-<section class="day-section" id="day5">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="day-banner"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNH9gaGuyRRSEEr8obOCUekEQ9XgNE5e_b_lBmJqNNPeIqKwCwDN-X4uHiDJ-3Kkt_YNvSqP6PVSnNvG7BCzQxzf1_mosvSK_ZbTQbDYI2VIEjkUqUtcNyCvsNMollsu6phyYysBGXYC8LJCxQ=s4800-w900-h400" alt="Night market" loading="lazy"><div class="day-banner-overlay"><div class="day-label">Day 05</div><div class="day-title">Nimman &amp; Modern Lanna</div></div></div>
-<div class="day-stats"><div class="day-stat">&#x1F6B6; <strong>~10 mi</strong></div><div class="day-stat">&#x2615; Coffee culture</div><div class="day-stat">&#x1F6CD; Saturday market?</div></div>
-<span class="neighborhood-tag">Nimmanhaemin</span>
-<div class="timeline">
-<div class="tl-item meal"><div class="tl-time">7:30 AM</div><div class="tl-title">Akha Ama Coffee</div><div class="tl-addr">&#x1F4CD; Nimman Soi 9 &middot; <a href="https://maps.google.com/?q=Akha+Ama+Coffee+Nimman" target="_blank">Map</a></div><div class="tl-desc">Hill tribe-founded. <strong>Beans grown, roasted locally.</strong> &#xE3F;80-150.</div></div>
-<div class="tl-item"><div class="tl-time">9:00 AM</div><div class="tl-title">Nimman Walk</div><div class="tl-desc"><strong>Sois 1-17:</strong> design boutiques, galleries, cafes in converted teak houses.</div></div>
-<div class="tl-item"><div class="tl-time">10:30 AM</div><div class="tl-title">National Museum</div><div class="tl-addr">&#x1F4CD; Near Wat Jed Yod &middot; <a href="https://maps.google.com/?q=Chiang+Mai+National+Museum" target="_blank">Map</a></div><div class="tl-desc"><strong>16 rooms of Lanna art.</strong> Wed-Sun. &#xE3F;100.</div></div>
-<div class="tl-item culture"><div class="tl-time">12:00 PM</div><div class="tl-title">Wat Jed Yod - Seven Spires</div><div class="tl-desc">Modeled on <strong>India's Mahabodhi Temple</strong>. Quiet, shady. Free.</div></div>
-<div class="tl-item meal"><div class="tl-time">1:00 PM</div><div class="tl-title">Crispy Pork Belly Stall</div><div class="tl-desc"><strong>Moo krob</strong> charcoal-roasted in clay pots. &#xE3F;70.</div></div>
-<div class="tl-item"><div class="tl-time">2:00-4:30 PM</div><div class="tl-title">Free Time</div><div class="tl-desc"><strong>Parents:</strong> Pool / spa. <strong>Younger:</strong> MAIIAM Contemporary Art or shopping.</div></div>
-<div class="tl-item meal"><div class="tl-time">5:00 PM</div><div class="tl-title">Saturday Walking Street</div><div class="tl-desc"><strong>1 km+ of food, crafts, silver, textiles.</strong> &#xE3F;150-250 grazing.</div>
-<div class="alt"><div class="alt-label">If Not Saturday</div><p><strong>Big Big Shabu</strong> - all-you-can-eat BBQ &amp; hot pot. &#xE3F;200.</p></div></div>
+<section class="ds" id="d5"><div class="dv"><span>&#x2726;</span></div>
+<div class="db"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHtfU2kx5joxY6pcC_6ODIZiLM-JpF3s5J9dIOHgtkgUYH3IBRcnogs9BGy9ttIi0hjaZiLeHlg9FJJ3EgCkapUSAcw6w3MCIzy1Kq2BqsGL3MWRVCoNNG4GySMRb7O6MglhKUquUrlng_2HA=s4800-w800-h400" alt="Dantewada" loading="lazy"><div class="ov"><div class="dl" data-t="131">Day 05</div><div class="dt" data-t="132">Caf&eacute; Hopping &amp; Art</div></div></div>
+<div class="dss"><div class="dst" data-t="134">&#x1F697; <strong>Van morning</strong></div><div class="dst" data-t="135">&#x2615; <strong>3 unique caf&eacute;s</strong></div><div class="dst" data-t="136">&#x1F3A8; Art village</div></div>
+<span class="nt2" data-t="133">Mae Taeng &middot; Doi Suthep area</span>
+<div class="tl">
+<div class="ti c"><div class="tt" data-t="137">8:00 AM</div><div class="tn" data-t="138">Dantewada &mdash; Land of Angels</div><div class="ta">&#x1F4CD; Mae Taeng &middot; <a href="https://maps.google.com/?q=Dantewada+Land+of+Angels" target="_blank">Map</a></div><div class="td" data-t="139"><strong>Fairytale waterfall park.</strong> Caves, waterfalls, mist zones, flower gardens, tree houses. Feed rabbits &amp; goats (&#xE3F;20). Amazing photos. <strong>Entry &#xE3F;80. Opens 8 AM.</strong></div>
+<div class="ph"><a href="https://www.google.com/search?q=Dantewada+Land+of+Angels&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHtfU2kx5joxY6pcC_6ODIZiLM-JpF3s5J9dIOHgtkgUYH3IBRcnogs9BGy9ttIi0hjaZiLeHlg9FJJ3EgCkapUSAcw6w3MCIzy1Kq2BqsGL3MWRVCoNNG4GySMRb7O6MglhKUquUrlng_2HA=s4800-w400-h300" alt="Dantewada" loading="lazy"><span>Enchanted Forest</span></a></div></div>
+<div class="ti m"><div class="tt" data-t="140">12:00 PM &mdash; Lunch</div><div class="tn" data-t="141">Lalitta Caf&eacute;</div><div class="td" data-t="142"><strong>Fairytale-themed garden caf&eacute;</strong> with mist, waterfalls, koi ponds. Entry &#xE3F;60 redeemable on food. Go morning for fewer crowds.</div></div>
+<div class="ti c"><div class="tt" data-t="143">3:00 PM &mdash; Art</div><div class="tn" data-t="144">Baan Kang Wat (Art Village)</div><div class="ta">&#x1F4CD; Near Wat Umong &middot; <a href="https://maps.google.com/?q=Baan+Kang+Wat" target="_blank">Map</a></div><div class="td" data-t="145"><strong>Artist community in vintage wooden houses.</strong> Ceramics workshops, DIY painting, handmade crafts. Excellent slow caf&eacute;s. <strong>Closed Mondays. 10 AM&ndash;6 PM.</strong></div>
+<div class="ph"><a href="https://www.google.com/search?q=Baan+Kang+Wat+art+village&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHeEcCElQnYqVNNll2D92Ypx0vFle5ibmx0LAMPj3snbHcZVuds44GP3gIZUxjGKnpqdun_A3q1Tky9o0tMVOmkIZkKzGho7N947XTntQvXxZadHHKpze2kbsyiJnejRV3RO-Dr1fTdfJMvQkKLg5jXwQ=s4800-w400-h300" alt="Art Village" loading="lazy"><span>Art Village</span></a></div></div>
 </div>
-<div class="budget"><h4>Day 5 (per person)</h4><div class="budget-row"><span class="cat">Meals + coffee</span><span class="amt">&#xE3F;470</span></div><div class="budget-row"><span class="cat">Museum + shopping</span><span class="amt">&#xE3F;300</span></div><div class="budget-total"><span class="cat">Total</span><span class="amt">~&#xE3F;770 (~$21)</span></div></div>
-</section>
-
+<div class="bg"><h4 data-t="146">Day 5 (per person)</h4><div class="br"><span class="ca" data-t="147">Meals + caf&eacute;s</span><span class="am">&#xE3F;500</span></div><div class="br"><span class="ca" data-t="148">Van + entries</span><span class="am">&#xE3F;500</span></div><div class="bt"><span class="ca" data-t="228">Total</span><span class="am">~&#xE3F;1,000</span></div></div></section>
+ 
 <!-- DAY 6 -->
-<section class="day-section" id="day6">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="day-banner"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFDVDI_k6_TjCxcLN0_PnUnHD1_HW5saJ7KaQhF8eEJpllNpdRbiDBoOcAQJOH1K85dHsCTs3rWGCM5Ll2uiS3KJzPVW-R61TCNaAVvavncm4uxW-ugjEcbloaEuwKOM_2nu9PvrMMArrFcog=s4800-w900-h400" alt="Temple" loading="lazy"><div class="day-banner-overlay"><div class="day-label">Day 06</div><div class="day-title">Deep Lanna &amp; Markets</div></div></div>
-<div class="day-stats"><div class="day-stat">&#x1F6B6; <strong>~9 mi</strong></div><div class="day-stat">&#x1F486; Massage day</div><div class="day-stat">&#x1F6CD; Sunday market?</div></div>
-<span class="neighborhood-tag">Santitham &middot; North Old City</span>
-<div class="timeline">
-<div class="tl-item meal"><div class="tl-time">7:00 AM</div><div class="tl-title">Santitham Morning Market</div><div class="tl-desc"><strong>Genuine local neighborhood.</strong> Jok, fresh fruit, Thai donuts.</div></div>
-<div class="tl-item"><div class="tl-time">8:30 AM</div><div class="tl-title">Lanna Traditional House Museum</div><div class="tl-desc"><strong>Blue wooden house</strong> - historical photos, local fashion. <strong>Free.</strong></div></div>
-<div class="tl-item culture"><div class="tl-time">10:00 AM</div><div class="tl-title">Wat Phuak Hong &amp; Wat Duang Dee</div><div class="tl-desc"><strong>Phuak Hong:</strong> rare seven-tiered chedi. <strong>Duang Dee:</strong> carved wooden viharn.</div></div>
-<div class="tl-item meal"><div class="tl-time">12:00 PM</div><div class="tl-title">Pad See Ew Street Cart</div><div class="tl-desc"><strong>Best wok noodles in the city.</strong> &#xE3F;45-55.</div></div>
-<div class="tl-item"><div class="tl-time">1:30 PM</div><div class="tl-title">Lanna Architecture Center</div><div class="tl-desc"><strong>Roof forms, naga symbolism.</strong> Pulls the whole week together. &#xE3F;90.</div></div>
-<div class="tl-item"><div class="tl-time">3:00-5:00 PM</div><div class="tl-title">Family Massage</div><div class="tl-desc"><strong>2-hour Thai massage.</strong> Try <strong>Lila Thai</strong>. &#xE3F;250-500/hr.</div></div>
-<div class="tl-item meal"><div class="tl-time">5:00 PM</div><div class="tl-title">Sunday Walking Street</div><div class="tl-desc"><strong>Legendary market.</strong> Entire Old City road closes. Arrive 5 PM.</div>
-<div class="alt"><div class="alt-label">If Not Sunday</div><p><strong>Pakorn's</strong> - best beef massaman curry. &#xE3F;200-300.</p></div></div>
+<section class="ds" id="d6"><div class="dv"><span>&#x2726;</span></div>
+<div class="db"><img src="https://lh3.googleusercontent.com/places/ANXAkqHU88GoxwyPFf1q-tfgDZmugNOkPz_7-Eccm4RB83CySsExgqToGIaFTrXAztPfy3dtqGreoEtpqTD-RQeRCqa_IyAcoyiGx-k=s4800-w800-h400" alt="Mae Wang" loading="lazy"><div class="ov"><div class="dl" data-t="149">Day 06</div><div class="dt" data-t="150">Nature Day &mdash; Mae Wang</div></div></div>
+<div class="dss"><div class="dst" data-t="152">&#x1F697; <strong>Van day</strong></div><div class="dst" data-t="153">&#x1F3DE; <strong>National Park</strong></div><div class="dst" data-t="154">&#x1F418; Elephant option</div></div>
+<span class="nt2" data-t="151">Mae Wang National Park</span>
+<div class="tl">
+<div class="ti c"><div class="tt" data-t="155">8:00 AM &mdash; Nature</div><div class="tn" data-t="156">Mae Wang National Park</div><div class="ta">&#x1F4CD; ~1 hr south &middot; <a href="https://maps.google.com/?q=Mae+Wang+National+Park" target="_blank">Map</a></div><div class="td" data-t="157"><strong>Pa Chor Cliffs</strong> &mdash; dramatic rock formations dubbed "Thailand's Grand Canyon." Easy walking trails, viewpoints, caf&eacute;. <strong>Entry &#xE3F;100 + &#xE3F;30 car.</strong></div></div>
+<div class="ti"><div class="tt" data-t="158">11:00 AM &mdash; Adventure</div><div class="tn" data-t="159">Bamboo Rafting &amp; Jungle Walk</div><div class="td" data-t="160">Local operators offer <strong>bamboo rafting</strong> down the river and guided jungle walks. ~&#xE3F;500&ndash;800/person.</div></div>
+<div class="ti"><div class="tt" data-t="161">2:00 PM</div><div class="tn" data-t="162">Elephant Sanctuary (Optional)</div><div class="td" data-t="163">Ethical elephant sanctuaries nearby. <strong>Feed and bathe elephants</strong> &mdash; no riding. Half-day ~&#xE3F;1,500&ndash;2,500/person. Book ahead.</div></div>
+<div class="ti m"><div class="tt" data-t="164">6:00 PM</div><div class="tn" data-t="165">Dinner in Nimman</div><div class="td" data-t="166">Return to hotel. Dinner at One Nimman food court or explore Nimman restaurants.</div></div>
 </div>
-<div class="budget"><h4>Day 6 (per person)</h4><div class="budget-row"><span class="cat">Meals + market</span><span class="amt">&#xE3F;315</span></div><div class="budget-row"><span class="cat">Museum + massage</span><span class="amt">&#xE3F;590</span></div><div class="budget-total"><span class="cat">Total</span><span class="amt">~&#xE3F;905 (~$25)</span></div></div>
-</section>
-
+<div class="bg"><h4 data-t="167">Day 6 (per person)</h4><div class="br"><span class="ca" data-t="168">Activities</span><span class="am">&#xE3F;800</span></div><div class="br"><span class="ca" data-t="169">Meals + van</span><span class="am">&#xE3F;600</span></div><div class="bt"><span class="ca" data-t="228">Total</span><span class="am">~&#xE3F;1,400</span></div></div></section>
+ 
 <!-- DAY 7 -->
-<section class="day-section" id="day7">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="day-banner"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNHX9Y6n5tGB4e2qma4knVNOTSNmKjo8HFxXKKiUHcp8vZ-DHRPZP34IEOCDcQvt-ObRWA0VHXAL9zzoxTfbSkOqRqFjXF3gF73godqz8N16sPVUQXMvUSihazzOzqx46xyJLTlM93_yqG-vog=s4800-w900-h400" alt="Buddha" loading="lazy"><div class="day-banner-overlay"><div class="day-label">Day 07</div><div class="day-title">Last Light</div></div></div>
-<div class="day-stats"><div class="day-stat">&#x1F6B6; <strong>~8 mi</strong></div><div class="day-stat">&#x1F64F; Visakha Bucha if May 31</div><div class="day-stat">&#x1F37D; Farewell feast</div></div>
-<span class="neighborhood-tag">Old City &middot; Farewell</span>
-<div class="timeline">
-<div class="tl-item culture"><div class="tl-time">5:30 AM</div><div class="tl-title">Alms-Giving</div><div class="tl-desc"><strong>Monks walk barefoot</strong> collecting offerings. Observe from a distance.</div></div>
-<div class="tl-item meal"><div class="tl-time">7:00 AM</div><div class="tl-title">Your Favorite Breakfast</div><div class="tl-desc">Revisit the spot that won your heart.</div></div>
-<div class="tl-item"><div class="tl-time">8:30 AM</div><div class="tl-title">Favorites Loop</div><div class="tl-desc">Return visits, gift shopping, or quiet temple time.</div></div>
-<div class="tl-item meal"><div class="tl-time">12:00 PM</div><div class="tl-title">Huen Phen</div><div class="tl-addr">&#x1F4CD; 112 Ratchamanka Rd &middot; <a href="https://maps.google.com/?q=Huen+Phen+Chiang+Mai" target="_blank">Map</a></div><div class="tl-desc"><strong>Lanna wooden house with antiques.</strong> Michelin-recognized. &#xE3F;150-250.</div>
-<div class="photos"><a href="https://www.google.com/search?q=Huen+Phen+Chiang+Mai&tbm=isch" target="_blank" class="photo"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGYOtcma1ZOpyBFGU_zJjZMTdkv4zMp8n6Jl0BnjCKh67yf4KrzDptTJnXFtGnRbLp2hfHh8HItwcF2BuwmB56SNT0gxUJZivW--c2bZUrw53r5iWX27wETJKOiKveo9vScGCH7EcKWu72N_A=s4800-w400-h300" alt="Thai food" loading="lazy"><span>Northern Thai</span></a></div></div>
-<div class="tl-item"><div class="tl-time">2:00 PM</div><div class="tl-title">Three Kings &#x2192; Tha Phae Gate</div><div class="tl-desc">Final walk. Ceremonial exit. ~1 km.</div></div>
-<div class="tl-item meal"><div class="tl-time">6:30 PM</div><div class="tl-title">Chef Black's Tasting Menu</div><div class="tl-desc"><strong>Chiang Mai's crown jewel.</strong> Micro-seasonal tasting menu. &#xE3F;1,200-1,800. <strong>Book ahead.</strong></div>
-<div class="alt"><div class="alt-label">Casual Option</div><p><strong>Coconut Shell</strong> - family-style farewell. &#xE3F;150-300.</p></div></div>
+<section class="ds" id="d7"><div class="dv"><span>&#x2726;</span></div>
+<div class="db"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNGPgUXMfM-Tf23Y2iI8QGjLxCB6G9BVZbOJsCMIM_dFQlO9Rk_Y1YGtSmmflWq65DUrRhv7F9gNlOuLjp-_JrehJ2VxIrxpvxGiVlJrRvq38YnUZtTZJfFbkJAOgEVOrH6Z1wRKjs0E3mH_AEc=s4800-w800-h400" alt="Doi Kham" loading="lazy"><div class="ov"><div class="dl" data-t="170">Day 07</div><div class="dt" data-t="171">Temple, Market &amp; Farewell</div></div></div>
+<div class="dss"><div class="dst" data-t="173">&#x1F6D5; <strong>Temple</strong></div><div class="dst" data-t="174">&#x1F965; <strong>Coconut Market</strong></div><div class="dst" data-t="175">&#x1F373; Cooking class</div></div>
+<span class="nt2" data-t="172">Doi Kham &middot; Fa Ham &middot; Old City</span>
+<div class="tl">
+<div class="ti c"><div class="tt" data-t="176">7:00 AM &mdash; Temple</div><div class="tn" data-t="177">Wat Phra That Doi Kham</div><div class="ta">&#x1F4CD; Mae Hia &middot; <a href="https://maps.google.com/?q=Wat+Phra+That+Doi+Kham" target="_blank">Map</a></div><div class="td" data-t="178"><strong>Golden Mountain Temple.</strong> Colossal white-and-gold Buddha visible for miles. Hilltop views, spiritual atmosphere. <strong>Free entry. 6 AM&ndash;6 PM.</strong></div></div>
+<div class="ti m"><div class="tt" data-t="179">9:30 AM &mdash; Market</div><div class="tn" data-t="180">Coconut Market</div><div class="ta">&#x1F4CD; Fa Ham &middot; <a href="https://maps.google.com/?q=Coconut+Market+Chiang+Mai" target="_blank">Map</a></div><div class="td" data-t="181"><strong>Walk through endless coconut palms</strong> with a canal. Local food, handmade crafts, baby goats, live music. Try the <strong>burnt coconut water</strong>. <strong>Fri&ndash;Sun only, 8 AM&ndash;3 PM.</strong></div>
+<div class="ph"><a href="https://www.google.com/search?q=Coconut+Market+Chiang+Mai&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/place-photos/AL8-SNFmGeHvJ7NJg97I_bVzGfuLKR_xrN2KoOPjme9bJmHrkQUUkxZJ5vjYppB1DpGBCgFTJeBtN-ulZnOoLDpS_boPgBFha_j5aVGUAlmb6keu9HAiwTG1XCVnS9efp6ddXwdxwyf4xevtPL8oSQ=s4800-w400-h300" alt="Coconut" loading="lazy"><span>Coconut Market</span></a></div></div>
+<div class="ti c"><div class="tt" data-t="182">12:00 PM &mdash; Cooking</div><div class="tn" data-t="183">Zabb-E-Lee Cooking School</div><div class="ta">&#x1F4CD; Old City &middot; <a href="https://maps.google.com/?q=Zabb+E+Lee+Cooking" target="_blank">Map</a></div><div class="td" data-t="184"><strong>5-star rated (3,000+ reviews).</strong> Market tour + cook 4 courses. Beautiful campus. Hotel pickup included. <strong>&#xE3F;800&ndash;1,200/person. Book 2&ndash;3 days ahead.</strong></div>
+<div class="ph"><a href="https://www.google.com/search?q=Zabb+E+Lee+cooking+class&tbm=isch" target="_blank" class="pi"><img src="https://lh3.googleusercontent.com/places/ANXAkqG-a8_Rqk1nE-MgrQ3erExaetcryZfAfZ8npDQjCm5c3pmjPoYQs0l5YkT1Q-5RdnTnHPzEVIlyABI_oH_I5PUe7h88Q7I0cuo=s4800-w400-h300" alt="Cooking" loading="lazy"><span>Cooking School</span></a></div></div>
+<div class="ti"><div class="tt" data-t="185">4:00 PM</div><div class="tn" data-t="186">Airport</div><div class="td" data-t="187">Van to Chiang Mai International Airport. Allow 30&ndash;40 min from Old City.</div></div>
 </div>
-<div class="budget"><h4>Day 7 (per person)</h4><div class="budget-row"><span class="cat">Meals</span><span class="amt">&#xE3F;280</span></div><div class="budget-row"><span class="cat">Farewell dinner</span><span class="amt">&#xE3F;1,500</span></div><div class="budget-row"><span class="cat">Gifts</span><span class="amt">&#xE3F;500</span></div><div class="budget-total"><span class="cat">Total</span><span class="amt">~&#xE3F;2,280 (~$63)</span></div></div>
-</section>
-
+<div class="bg"><h4 data-t="188">Day 7 (per person)</h4><div class="br"><span class="ca" data-t="189">Cooking class</span><span class="am">&#xE3F;1,000</span></div><div class="br"><span class="ca" data-t="190">Market + snacks</span><span class="am">&#xE3F;300</span></div><div class="bt"><span class="ca" data-t="228">Total</span><span class="am">~&#xE3F;1,300</span></div></div></section>
+ 
 <!-- BUDGET SUMMARY -->
-<section id="budget-summary">
-<div class="divider"><span>&#x2726;</span></div>
-<div class="card">
-  <h2>&#x1F4B0; 7-Day Budget Summary</h2>
-  <div class="budget" style="border:none;padding:0;margin:0">
-    <div class="budget-row"><span class="cat">Day 1 - Old City</span><span class="amt">&#xE3F;740</span></div>
-    <div class="budget-row"><span class="cat">Day 2 - Beyond Walls</span><span class="amt">&#xE3F;515</span></div>
-    <div class="budget-row"><span class="cat">Day 3 - Mountain</span><span class="amt">&#xE3F;800</span></div>
-    <div class="budget-row"><span class="cat">Day 4 - Cooking</span><span class="amt">&#xE3F;1,560</span></div>
-    <div class="budget-row"><span class="cat">Day 5 - Nimman</span><span class="amt">&#xE3F;770</span></div>
-    <div class="budget-row"><span class="cat">Day 6 - Deep Lanna</span><span class="amt">&#xE3F;905</span></div>
-    <div class="budget-row"><span class="cat">Day 7 - Farewell</span><span class="amt">&#xE3F;2,280</span></div>
-    <div class="budget-total"><span class="cat">Per Person</span><span class="amt">~&#xE3F;7,570 (~$210)</span></div>
-  </div>
-  <p style="font-size:16px;color:var(--slate);margin-top:18px;line-height:1.7"><strong>5 travelers: ~&#xE3F;37,850 (~$1,050 USD) total.</strong><br>Food, entries, activities &amp; local transport. Excludes accommodation &amp; flights.</p>
+<section id="bsum"><div class="dv"><span>&#x2726;</span></div>
+<div class="card"><h2 data-t="191">&#x1F4B0; 7-Day Budget Summary</h2>
+<div class="bg" style="border:none;padding:0;margin:0">
+<div class="br"><span class="ca" data-t="192">Day 1 &mdash; Nimman</span><span class="am">&#xE3F;280</span></div>
+<div class="br"><span class="ca" data-t="193">Day 2 &mdash; Old City</span><span class="am">&#xE3F;700</span></div>
+<div class="br"><span class="ca" data-t="194">Day 3 &mdash; Waterfalls + Caf&eacute;s</span><span class="am">&#xE3F;1,000</span></div>
+<div class="br"><span class="ca" data-t="195">Day 4 &mdash; Mountains</span><span class="am">&#xE3F;900</span></div>
+<div class="br"><span class="ca" data-t="196">Day 5 &mdash; Caf&eacute;s + Art</span><span class="am">&#xE3F;1,000</span></div>
+<div class="br"><span class="ca" data-t="197">Day 6 &mdash; Mae Wang</span><span class="am">&#xE3F;1,400</span></div>
+<div class="br"><span class="ca" data-t="198">Day 7 &mdash; Temple + Cooking</span><span class="am">&#xE3F;1,300</span></div>
+<div class="bt"><span class="ca" data-t="199">Per Person Total</span><span class="am">~&#xE3F;6,580 (~$183)</span></div>
 </div>
-</section>
-
+<p style="font-size:16px;color:var(--sl);margin-top:18px;line-height:1.7" data-t="200"><strong>5 travelers: ~&#xE3F;32,900 (~$914 USD) total.</strong><br>Food, entries, activities &amp; transport. Excludes accommodation &amp; flights.</p>
+</div></section>
+ 
 <!-- TIPS -->
-<section>
-<div class="divider"><span>&#x2726;</span></div>
-<div class="tips-grid">
-  <div class="tip"><h4>&#x1F392; Packing</h4><ul><li>Cover shoulders &amp; knees (temples)</li><li>Slip-on shoes (removed constantly)</li><li>Compact umbrella (daily carry)</li><li>SPF 50+ &middot; Insect repellent</li><li>Electrolyte sachets</li><li>Refillable water bottle</li></ul></div>
-  <div class="tip"><h4>&#x1F64F; Temple Rules</h4><ul><li>Remove shoes inside buildings</li><li>Never point feet at Buddha</li><li>Don't touch monks (esp. women)</li><li>Walk clockwise around chedis</li><li>Ask before photographing monks</li><li>Small donation &#xE3F;20-50</li></ul></div>
-  <div class="tip"><h4>&#x1F4A1; Practical</h4><ul><li>Cash is king - small bills &#xE3F;20-100</li><li>Complete TDAC 72 hrs before landing</li><li>Grab app works for rides</li><li>7-Eleven: water, SIM cards</li><li>"Sawasdee" (hello) &middot; "Khob khun" (thanks)</li></ul></div>
-  <div class="tip"><h4>&#x1F321; Daily Rhythm</h4><ul><li><strong>6:30-10 AM:</strong> Walk &amp; temples</li><li><strong>10-12:</strong> Museums (air-con)</li><li><strong>12-3 PM:</strong> Lunch, rest, massage</li><li><strong>3-6 PM:</strong> Second walk</li><li><strong>6 PM+:</strong> Markets &amp; dinner</li></ul></div>
-</div>
-</section>
+<section><div class="dv"><span>&#x2726;</span></div>
+<div class="tg">
+<div class="tp"><h4 data-t="201">&#x1F392; Packing</h4><ul><li data-t="205">Cover shoulders &amp; knees (temples)</li><li data-t="206">Slip-on shoes</li><li data-t="207">Compact umbrella</li><li data-t="208">SPF 50+ &middot; Insect repellent</li><li data-t="209">Swimwear (Sticky Waterfall)</li><li data-t="210">Light jacket (mountains are cooler)</li></ul></div>
+<div class="tp"><h4 data-t="202">&#x1F697; Transport Tips</h4><ul><li data-t="211">Private van: &#xE3F;1,500&ndash;2,500/day</li><li data-t="212">Grab works in the city</li><li data-t="213">Songthaew (red trucks): &#xE3F;30&ndash;60</li><li data-t="214">Don't mix distant places in one day</li><li data-t="215">Mountains take longer than Maps says</li></ul></div>
+<div class="tp"><h4 data-t="203">&#x1F4A1; Practical</h4><ul><li data-t="216">Cash is king &mdash; small bills</li><li data-t="217">Complete TDAC 72 hrs before landing</li><li data-t="218">7-Eleven: water, SIM cards, snacks</li><li data-t="219">"Sawasdee" (hello) &middot; "Khob khun" (thanks)</li><li data-t="220">Coconut Market: Fri&ndash;Sun only</li></ul></div>
+<div class="tp"><h4 data-t="204">&#x1F321; Daily Rhythm</h4><ul><li data-t="221"><strong>7&ndash;10 AM:</strong> Outdoor activities</li><li data-t="222"><strong>10&ndash;12:</strong> Indoor / caf&eacute;s</li><li data-t="223"><strong>12&ndash;3 PM:</strong> Lunch, rest, massage</li><li data-t="224"><strong>3&ndash;6 PM:</strong> Second outing</li><li data-t="225"><strong>6 PM+:</strong> Markets &amp; dinner</li></ul></div>
+</div></section>
 </main>
-
-<footer class="footer">
-  <div class="brand">Prepared with care for your family</div>
-  <p>Seven days &middot; Five travelers &middot; One ancient city<br>Chiang Mai &middot; Early May 2026<br><br><em>Prices verified March 2026. Confirm reservations 48 hrs ahead.</em></p>
-</footer>
-
+ 
+<footer class="ft"><div class="b2" data-t="226">Prepared with care for your family</div><p data-t="227">Seven days &middot; Five travelers &middot; One ancient city<br>Chiang Mai &middot; Early May 2026<br><br><em>Prices verified March 2026. Confirm reservations 48 hrs ahead.</em></p></footer>
+ 
 <script>
-var map = L.map('itinerary-map').setView([18.790, 98.975], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors',
-  maxZoom: 18
-}).addTo(map);
-
-var days = [
-  {color:'#C4956A', places:[
-    {lat:18.7938,lng:98.9893,name:'Wat Chiang Man',tip:'7:30 AM - Oldest temple (1296)'},
-    {lat:18.7878,lng:98.9878,name:'Wat Phan Tao',tip:'8:45 AM - The Teak Temple'},
-    {lat:18.7870,lng:98.9866,name:'Wat Chedi Luang',tip:'9:30 AM - Once 82m tall'},
-    {lat:18.7903,lng:98.9884,name:'Lanna Folklife Museum',tip:'11:00 AM - Lanna village dioramas'},
-    {lat:18.7953,lng:98.9831,name:'Khao Soi Khun Yai',tip:'12:30 PM - Best khao soi'},
-    {lat:18.7885,lng:98.9820,name:'Wat Phra Singh',tip:'3:30 PM - Most revered temple'},
-    {lat:18.7833,lng:98.9915,name:'Dash! Teak House',tip:'7:00 PM - Northern Thai Platter'}
-  ]},
-  {color:'#6366F1', places:[
-    {lat:18.7897,lng:98.9864,name:'Kiat Ocha',tip:'6:30 AM - Hainanese chicken rice'},
-    {lat:18.7787,lng:98.9837,name:'Wat Sri Suphan',tip:'7:45 AM - Silver Temple'},
-    {lat:18.7876,lng:98.9812,name:'SP Chicken',tip:'12:30 PM - Rotisserie chicken'}
-  ]},
-  {color:'#059669', places:[
-    {lat:18.8050,lng:98.9216,name:'Wat Doi Suthep',tip:'7:30 AM - 306 steps, panoramic views'},
-    {lat:18.7882,lng:98.9678,name:'Wat Suan Dok',tip:'11:30 AM - White royal chedis'},
-    {lat:18.7722,lng:98.9801,name:'Khantoke Dinner',tip:'6:30 PM - Live Lanna music & dance'}
-  ]},
-  {color:'#DC2626', places:[
-    {lat:18.7877,lng:98.9934,name:'Tha Phae Gate',tip:'1:00 PM - Ceremonial gate'},
-    {lat:18.7827,lng:98.9521,name:'Wat Umong',tip:'4:30 PM - Underground tunnels'},
-    {lat:18.7880,lng:99.0005,name:'Kiti Panit',tip:'7:00 PM - 1888 teak mansion'}
-  ]},
-  {color:'#7C3AED', places:[
-    {lat:18.7940,lng:98.9926,name:'Akha Ama Coffee',tip:'7:30 AM - Hill tribe coffee'},
-    {lat:18.8112,lng:98.9764,name:'National Museum',tip:'10:30 AM - 16 rooms of Lanna art'}
-  ]},
-  {color:'#EA580C', places:[
-    {lat:18.7902,lng:98.9874,name:'Three Kings Monument',tip:'10:00 AM - Founding kings'}
-  ]},
-  {color:'#0891B2', places:[
-    {lat:18.7858,lng:98.9851,name:'Huen Phen',tip:'12:00 PM - Michelin-recognized'},
-    {lat:18.7877,lng:98.9934,name:'Tha Phae Gate',tip:'2:30 PM - Ceremonial exit'}
-  ]}
-];
-
-days.forEach(function(day, di) {
-  var icon = L.divIcon({
-    className:'',
-    html:'<div style="background:'+day.color+';color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)">'+(di+1)+'</div>',
-    iconSize:[26,26],
-    iconAnchor:[13,13]
-  });
-  day.places.forEach(function(p) {
-    L.marker([p.lat, p.lng], {icon:icon})
-      .addTo(map)
-      .bindPopup('<strong style="font-size:14px">'+p.name+'</strong><br><span style="font-size:12px;color:#666">'+p.tip+'</span>');
-  });
+var m=L.map('im').setView([18.82,98.96],11);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OSM',maxZoom:18}).addTo(m);
+[['#C4956A',[[18.800,98.968,'One Nimman','D1'],[18.802,98.968,'Maya Mall','D1'],[18.800,98.975,'Khao Soi Mae Sai','D1']]],
+['#6366F1',[[18.787,98.987,'Old City','D2'],[18.790,99.001,'Warorot Market','D2'],[18.788,98.985,'Sunday Walking St','D2']]],
+['#059669',[[19.069,99.079,'Sticky Waterfall','D3'],[18.736,98.931,'Carp Cafe','D3'],[18.748,98.946,'Chom Cafe','D3']]],
+['#DC2626',[[18.936,98.822,'Mon Cham','D4'],[18.868,98.940,'Huay Tung Tao','D4'],[18.807,98.952,'Ang Kaew','D4']]],
+['#7C3AED',[[19.123,98.942,'Dantewada','D5'],[18.776,98.949,'Baan Kang Wat','D5']]],
+['#EA580C',[[18.527,98.754,'Mae Wang NP','D6']]],
+['#0891B2',[[18.759,98.919,'Doi Kham','D7'],[18.818,99.010,'Coconut Market','D7'],[18.792,98.993,'Zabb-E-Lee','D7']]]
+].forEach(function(dy,di){
+var ic=L.divIcon({className:'',html:'<div style="background:'+dy[0]+';color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)">'+(di+1)+'</div>',iconSize:[26,26],iconAnchor:[13,13]});
+dy[1].forEach(function(p){L.marker([p[0],p[1]],{icon:ic}).addTo(m).bindPopup('<b>'+p[2]+'</b><br><small>'+p[3]+'</small>');});
 });
 </script>
-</body>
-</html>
+<script>
+var T={
+'0':['Bespoke Family Itinerary','မိသားစု ခရီးစဉ် အစီအစဉ်'],
+'1':['Chiang Mai<br><em>Rose of the North</em>','ချင်းမိုင်<br><em>မြောက်ပိုင်း နှင်းဆီ</em>'],
+'2':['Seven days · Five travelers · One ancient city','ခုနစ်ရက် · ခရီးသည် 5 ဦး · ရှေးဟောင်းမြို့'],
+'3':['🗓 Early May 2026','🗓 2026 မေလ အစောပိုင်း'],
+'4':['👨‍👩‍👧‍👦 5 Travelers','👨‍👩‍👧‍👦 ခရီးသည် 5 ဦး'],
+'5':['🚗 Private van recommended','🚗 ကိုယ်ပိုင်ဗန် အကြံပြု'],
+'6':['🌡 32–36°C','🌡 32–36°C'],
+'7':['Map','မြေပုံ'],
+'8':['Day 1','ရက် 1'],
+'9':['Day 2','ရက် 2'],
+'10':['Day 3','ရက် 3'],
+'11':['Day 4','ရက် 4'],
+'12':['Day 5','ရက် 5'],
+'13':['Day 6','ရက် 6'],
+'14':['Day 7','ရက် 7'],
+'15':['Budget','ဘတ်ဂျက်'],
+'16':['☀️ May Weather','☀️ မေလ ရာသီဥတု'],
+'17':['<strong>32–36°C, humidity ~67%.</strong> Afternoon thunderstorms ~11 days/month. Mornings best for outdoor activities. Carry umbrella daily. Mountains are cooler.','<strong>32–36°C၊ စိုထိုင်းဆ ~67%။</strong> နေ့လည်ပိုင်း မိုးကြိုးပစ် ~လစဉ် 11 ရက်။ နံနက်ပိုင်း အပြင်လှုပ်ရှားမှုအတွက် အကောင်းဆုံး။ ထီးယူသွားပါ။ တောင်ပေါ်က ပိုအေးပါသည်။'],
+'18':['⚡ Quick Reference','⚡ အမြန်ကိုးကား'],
+'19':['Party','အဖွဲ့'],
+'20':['5 travelers','ခရီးသည် 5 ဦး'],
+'21':['Father &amp; mother, young couple, young adult','ဖခင်နှင့်မိခင်၊ လူငယ်စုံတွဲ၊ လူငယ်'],
+'22':['Transport','သယ်ယူပို့ဆောင်ရေး'],
+'23':['Private van + driver','ကိုယ်ပိုင်ဗန် + ယာဉ်မောင်း'],
+'24':['~฿1,500–2,500/day for mountain days','တောင်ပေါ်ရက်များအတွက် ~฿1,500–2,500/day'],
+'25':['Best Start','အကောင်းဆုံး စတင်ချိန်'],
+'26':['7:00–8:00 AM','7:00–8:00 AM'],
+'27':['Beat the heat','အပူရှောင်ပါ'],
+'28':['Currency','ငွေကြေး'],
+'29':['Thai Baht ฿','ထိုင်းဘတ် ฿'],
+'30':['~฿36 = $1 USD · ~฿27 = 1 SGD','~฿36 = $1 · ~฿27 = 1 SGD'],
+'31':['Stay','တည်းခို'],
+'32':['Nimman area','Nimman ဧရိယာ'],
+'33':['Near cafes, mountains &amp; malls','ကဖေး၊ တောင်တန်းနှင့် ဈေးဝယ်စင်တာ အနီး'],
+'34':['Before You Fly','မပျံခင်'],
+'35':['TDAC Required','TDAC လိုအပ်'],
+'36':['Digital arrival card — 72 hrs before','ဒစ်ဂျစ်တယ် ဆိုက်ရောက်ကတ် — 72 hrs'],
+'37':['🚗 Transport Strategy','🚗 သယ်ယူပို့ဆောင်ရေး မဟာဗျူဟာ'],
+'38':['<strong>Days 1, 2, 5:</strong> Walk + Grab (city). <strong>Days 3, 4, 6:</strong> Private van with driver (mountains). <strong>Day 7:</strong> Van to airport.','<strong>ရက် 1၊ 2၊ 5:</strong> လမ်းလျှောက် + Grab (မြို့ထဲ)။ <strong>ရက် 3၊ 4၊ 6:</strong> ယာဉ်မောင်းပါ ဗန် (တောင်တန်း)။ <strong>ရက် 7:</strong> Airportသို့ ဗန်။'],
+'39':['🗺 Your 7-Day Route','🗺 သင့် 7 ရက် ခရီးလမ်းကြောင်း'],
+'40':['D1 Nimman','ရက်1 Nimman'],
+'41':['D2 Old City','ရက်2 ဟောင်းမြို့'],
+'42':['D3 Sticky Falls','ရက်3 ကပ်ရေတံခွန်'],
+'43':['D4 Mountains','ရက်4 တောင်တန်း'],
+'44':['D5 Cafés','ရက်5 ကဖေး'],
+'45':['D6 Mae Wang','ရက်6 မဲဝမ်'],
+'46':['D7 Temple','ရက်7 ဘုရားကျောင်း'],
+'47':['Day 01','ရက် 01'],
+'48':['Arrival + Nimman Area','ရောက်ရှိခြင်း + Nimman ဧရိယာ'],
+'49':['Nimmanhaemin · Easy Day','Nimmanhaemin · အလွယ်ရက်'],
+'50':['✈ <strong>Arrival day</strong>','✈ <strong>ရောက်ရှိရက်</strong>'],
+'51':['🚶 <strong>Easy walking</strong>','🚶 <strong>လွယ်ကူ လမ်းလျှောက်</strong>'],
+'52':['🍽 First khao soi','🍽 ပထမဆုံး ခေါက်ဆွဲ'],
+'53':['Afternoon','နေ့လည်ပိုင်း'],
+'54':['Check In &amp; Nimman Walk','Check In &amp; Nimman Walk'],
+'55':['Settle into your hotel, then stroll <strong>Nimmanhaemin Road</strong> — Chiang Mai\'s creative hub. Sois 1–17 are packed with design boutiques, indie galleries, and cafes in converted teak houses.','ဟိုတယ်မှာ အေးဆေးနေပြီး <strong>Nimmanhaemin Road</strong>ပေါ် လမ်းလျှောက်ပါ — ချင်းမိုင်ရဲ့ ဖန်တီးမှုဗဟို။ ဆိုင်း 1–17 မှာ ဒီဇိုင်းဆိုင်၊ ပြခန်း၊ ကျွန်းသစ်အိမ် ကဖေးများ ပြည့်နေပါသည်။'],
+'56':['4:00 PM — Shopping','4:00 PM — ဈေးဝယ်'],
+'57':['One Nimman &amp; Maya Mall','One Nimman &amp; Maya Mall'],
+'58':['<strong>One Nimman:</strong> open-air complex with vintage-industrial charm, pop-up shops, live music. <strong>Maya Mall:</strong> modern mall with rooftop terrace &amp; mountain views. Both walkable.','<strong>One Nimman:</strong> ပွင့်လင်း ရှေးဟောင်းစက်မှု အလှ၊ ပေါ့ပ်အပ်ဆိုင်၊ တိုက်ရိုက်ဂီတ။ <strong>Maya Mall:</strong> ခေတ်မီ အပေါ်ထပ် တောင်ရှုခင်း။ နှစ်ခုလုံး လမ်းလျှောက်သွားနိုင်။'],
+'59':['7:00 PM — Dinner','7:00 PM — ညစာ'],
+'60':['Khao Soi Mae Sai','Khao Soi Mae Sai'],
+'61':['<strong>Michelin Guide-listed.</strong> The best khao soi in Chiang Mai — rich coconut curry broth, tender meat, crispy noodle topping. Also try the nam ngiao noodles. <strong>฿50–80/person. Closed Sunday.</strong>','<strong>Michelin Guide စာရင်းဝင်။</strong> ချင်းမိုင် အကောင်းဆုံး ခေါက်ဆွဲ — အုန်းနို့ ဟင်းချိုရည်၊ နူးညံ့အသား၊ ကြွပ်ကြွပ်ခေါက်ဆွဲ။ <strong>฿50–80/person။ Closed Sunday။</strong>'],
+'62':['Day 1 (per person)','ရက် 1 (per person)'],
+'63':['Dinner','ညစာ'],
+'64':['Drinks + snacks','အချိုရည် + မုန့်'],
+'65':['Total','စုစုပေါင်း'],
+'66':['Day 02','ရက် 02'],
+'67':['Old City &amp; Markets','ဟောင်းမြို့ နှင့် ဈေး'],
+'68':['Old City · Warorot · Ratchadamnoen','Old City · Warorot · Ratchadamnoen'],
+'69':['🚶 <strong>Walking day</strong>','🚶 <strong>လမ်းလျှောက်ရက်</strong>'],
+'70':['🛒 <strong>Markets</strong>','🛒 <strong>ဈေးများ</strong>'],
+'71':['🌙 Sunday Walking Street','🌙 တနင်္ဂနွေ လမ်းလျှောက်ဈေး'],
+'72':['8:00 AM — Temples','8:00 AM — ဘုရားကျောင်း'],
+'73':['Old City Temple Walk','Old City Temple Walk'],
+'74':['Explore the moat-enclosed Old City. Hit <strong>Wat Chedi Luang</strong> (ruined 82m chedi, free Monk Chat), <strong>Wat Phra Singh</strong> (finest Lanna murals), and <strong>Wat Phan Tao</strong> (teak temple). All walkable.','ကျုံးဝန်းရံ ဟောင်းမြို့ကို ရှာဖွေပါ။ <strong>Wat Chedi Luang</strong> (ပျက်စီး 82m စေတီ၊ အခမဲ့ ရဟန်းတွေ့ဆုံ)၊ <strong>Wat Phra Singh</strong> (အကောင်းဆုံး လန်နာ နံရံပန်းချီ)၊ <strong>Wat Phan Tao</strong> (ကျွန်းသစ် ဘုရားကျောင်း)။'],
+'75':['11:00 AM — Market','11:00 AM — ဈေး'],
+'76':['Warorot Market','Warorot Market'],
+'77':['<strong>Chiang Mai\'s oldest public market.</strong> Ground floor: dried fruit, spices, local snacks. Upper floors: textiles. Try the mango sticky rice and Thai iced tea. <strong>Open daily 6 AM–5 PM.</strong>','<strong>ချင်းမိုင် အဟောင်းဆုံး ဈေး။</strong> အောက်ထပ်: ခြောက်သီး၊ မဆလာ၊ ဒေသထွက်မုန့်။ အပေါ်ထပ်: ထည်ပစ္စည်း။ သရက်သီး ကပ်ထမင်း မြည်းကြည့်ပါ။ <strong>နေ့စဉ် 6 AM–5 PM။</strong>'],
+'78':['1:00–5:00 PM — Rest','1:00 PM–5:00 — နားချိန်'],
+'79':['Hotel + Coffee','Hotel + Coffee'],
+'80':['<strong>Parents:</strong> Rest or Thai massage. <strong>Younger group:</strong> Explore specialty coffee — <strong>Akha Ama</strong> or <strong>Ristr8to</strong>.','<strong>မိဘများ:</strong> အနားယူ သို့ ထိုင်းအနှိပ်။ <strong>လူငယ်အဖွဲ့:</strong> ကော်ဖီဆိုင် — <strong>Akha Ama</strong> သို့ <strong>Ristr8to</strong>။'],
+'81':['5:00 PM — Night Market','5:00 PM — ညဈေး'],
+'82':['Sunday Walking Street','Sunday Walking Street'],
+'83':['<strong>Chiang Mai\'s legendary Sunday market.</strong> Entire Old City main road closes for hundreds of vendors. Crafts, textiles, silver, street food. Arrive 5 PM — packed by 7. <strong>Sundays only.</strong>','<strong>ချင်းမိုင် ဒဏ္ဍာရီ တနင်္ဂနွေ ဈေး။</strong> ဟောင်းမြို့ လမ်းမကြီး ပိတ်ပစ်။ လက်မှုပညာ၊ ထည်ပစ္စည်း၊ ငွေ၊ လမ်းဘေးစားစရာ။ ညနေ 5 ရောက်ပါ။ <strong>Sundays only။</strong>'],
+'84':['If Not Sunday','တနင်္ဂနွေ မဟုတ်ရင်'],
+'85':['Visit the <strong>Saturday Walking Street</strong> on Wualai Rd or the <strong>Night Bazaar</strong> food courts.','<strong>စနေ လမ်းလျှောက်ဈေး</strong> ဝူးလိုင်လမ်း သို့ <strong>ညဈေး</strong> စားသောက်ဆိုင်များ သွားပါ။'],
+'86':['Day 2 (per person)','ရက် 2 (per person)'],
+'87':['Meals','အစားအစာ'],
+'88':['Market food + shopping','ဈေးစားစရာ + ဈေးဝယ်'],
+'89':['Day 03','ရက် 03'],
+'90':['Sticky Waterfall &amp; Cafés','ကပ်ရေတံခွန် နှင့် ကဖေးဆိုင်'],
+'91':['Mae Rim · Si Lanna','Mae Rim · Si Lanna'],
+'92':['🚗 <strong>Van day</strong>','🚗 <strong>ဗန်ရက်</strong>'],
+'93':['📸 <strong>Instagram spots</strong>','📸 <strong>ဓာတ်ပုံနေရာ</strong>'],
+'94':['☕ Café trail','☕ ကဖေးလမ်းကြောင်း'],
+'95':['8:00 AM — Nature','8:00 AM — သဘာဝ'],
+'96':['Bua Tong Sticky Waterfall','Bua Tong Sticky Waterfall'],
+'97':['<strong>Walk UP a waterfall.</strong> Calcium carbonate rocks are naturally grippy. No special shoes needed. Kids to grandparents can do it. Lockers ฿30. Free entry. <strong>Arrive before 9 AM. Closes 4:30 PM.</strong>','<strong>ရေတံခွန်ပေါ် လမ်းလျှောက်တက်ပါ။</strong> ကယ်လ်စီယမ်ကာဗွန်နိတ် ကျောက် သဘာဝချောင်းကိုင်နိုင်။ အထူးဖိနပ် မလို။ ကလေးမှ အဘိုးအဘွား လုပ်နိုင်။ <strong>နံနက် 9 မတိုင်မီ ရောက်ပါ။ 4:30 ပိတ်။</strong>'],
+'98':['12:00 PM — Lunch','12:00 PM — နေ့လည်စာ'],
+'99':['Carp Café','Carp Café'],
+'100':['<strong>Dine surrounded by giant koi fish.</strong> Sit on sunken islands with carp swimming around you. Feed fish with baby bottles (฿20–40). Even the bathroom has aquarium walls. <strong>฿150–300/person.</strong>','<strong>ကြီးမားသော ငါးကိုင် ဝန်းရံ ထမင်းစားပါ။</strong> ငါးများ ပတ်လည်ကူးနေသော ကျွန်းငယ်ပေါ် ထိုင်ပါ။ ဗူးနဲ့ ငါးကျွေး (฿20–40)။ ရေချိုးခန်းမှာတောင် ငါးကန်နံရံ။ <strong>฿150–300/person။</strong>'],
+'101':['2:30 PM — Café','2:30 PM — ကဖေး'],
+'102':['Chom Café','Chom Café'],
+'103':['<strong>Fairytale garden with waterfalls and mist.</strong> Stunning landscaping, live music on weekends. Great tom yum soup. <strong>฿200–400/person.</strong>','<strong>ပုံပြင်ထဲက ဥယျာဉ် ရေတံခွန်နှင့် မြူ။</strong> အံ့သြဖွယ် ပန်းခြံ၊ Sat/Sun ဂီတ။ တွမ်ယမ် အရသာကောင်း။ <strong>฿200–400/person။</strong>'],
+'104':['4:30 PM','4:30 PM'],
+'105':['Natura Café','Natura Café'],
+'106':['Pyramid-shaped café near CMU. Cool air-con retreat. Coffee &amp; desserts before heading back.','CMU အနီး ပိရမစ်ပုံ ကဖေး။ အေးမြသော လေအေးခန်း။ ပြန်မသွားခင် ကော်ဖီနှင့် အချိုပွဲ။'],
+'107':['Day 3 (per person)','ရက် 3 (per person)'],
+'108':['Meals + cafés','အစားအစာ + ကဖေး'],
+'109':['Van + driver','ဗန် + ယာဉ်မောင်း'],
+'110':['Day 04','ရက် 04'],
+'111':['Mountain Drive','တောင်ပေါ် ကားမောင်းခရီး'],
+'112':['Sa Moeng · Mon Cham · CMU','ဆာမုံ · Mon Cham (Mon Jam) · CMU'],
+'113':['🚗 <strong>Van day</strong>','🚗 <strong>ဗန်ရက်</strong>'],
+'114':['⛰ <strong>Sa Moeng Loop</strong>','⛰ <strong>Sa Moeng Loop</strong>'],
+'115':['🌅 Sunset at Ang Kaew','🌅 အန်ကယောမှာ နေဝင်'],
+'116':['8:00 AM — Scenic Drive','8:00 AM — ရှုခင်းကြည့် ကားမောင်း'],
+'117':['Sa Moeng Loop','Sa Moeng Loop'],
+'118':['<strong>One of Thailand\'s most beautiful drives.</strong> Winding mountain roads through forests and hill tribe villages. Stop at viewpoints. The loop itself is the attraction.','<strong>ထိုင်းနိုင်ငံ အလှဆုံး ကားလမ်းတစ်ခု။</strong> တောအုပ်နှင့် တောင်တန်းလူမျိုး ရွာများကို ဖြတ်သန်း ကောက်ကွေ့လမ်း။ ရှုခင်းမှတ်တိုင်များမှာ ရပ်ပါ။'],
+'119':['11:00 AM — Lunch','11:00 AM — နေ့လည်စာ'],
+'120':['Mon Cham (Mon Jam)','Mon Cham (Mon Jam)'],
+'121':['<strong>Mountain-top gardens with panoramic views.</strong> Flower beds, small cafés, the famous "hand in the sky" photo spot. Cooler up here. <strong>Entrance ฿50 per area.</strong>','<strong>တောင်ထိပ် ပန်းခြံ ပန်နိုရမာ ရှုခင်း။</strong> ပန်းခုံ၊ ကဖေးငယ်၊ "ကောင်းကင်ထဲ လက်" ဓာတ်ပုံနေရာ။ <strong>ဝင်ကြေး ฿50/area။</strong>'],
+'122':['2:30 PM — Relax','2:30 PM — အနားယူ'],
+'123':['Huay Tung Tao Lake','Huay Tung Tao Lake'],
+'124':['<strong>Lakeside bamboo huts.</strong> Order food, relax with mountain backdrop. Very laid-back, mostly locals.','<strong>ကန်နား ဝါးတဲငယ်များ။</strong> အစားအစာမှာယူ၊ တောင်ရှုခင်းနဲ့ အနားယူ။ ဒေသခံများ အများစု။'],
+'125':['5:30 PM — Sunset','5:30 PM — နေဝင်ချိန်'],
+'126':['Ang Kaew Reservoir (CMU)','Ang Kaew Reservoir (CMU)'],
+'127':['<strong>Chiang Mai\'s most beautiful sunset spot.</strong> The reservoir reflects Doi Suthep mountain. Free entry. <strong>Open 5 AM–10 PM.</strong>','<strong>ချင်းမိုင် အလှဆုံး နေဝင်ချိန်နေရာ။</strong> ရေကန်မှာ Doi Suthep ထင်ဟပ်။ အခမဲ့။ <strong>5 AM–10 PM။</strong>'],
+'128':['Day 4 (per person)','ရက် 4 (per person)'],
+'129':['Meals','အစားအစာ'],
+'130':['Van + entries','ဗန် + ဝင်ကြေး'],
+'131':['Day 05','ရက် 05'],
+'132':['Café Hopping &amp; Art','ကဖေးဆိုင်လှည့်ပတ် နှင့် အနုပညာ'],
+'133':['Mae Taeng · Doi Suthep area','Mae Taeng · Doi Suthep'],
+'134':['🚗 <strong>Van morning</strong>','🚗 <strong>နံနက် ဗန်</strong>'],
+'135':['☕ <strong>3 unique cafés</strong>','☕ <strong>ထူးခြား ကဖေး 3 ဆိုင်</strong>'],
+'136':['🎨 Art village','🎨 အနုပညာရွာ'],
+'137':['8:00 AM','8:00 AM'],
+'138':['Dantewada — Land of Angels','Dantewada — Land of Angels'],
+'139':['<strong>Fairytale waterfall park.</strong> Caves, waterfalls, mist zones, flower gardens, tree houses. Feed rabbits &amp; goats (฿20). Amazing photos. <strong>Entry ฿80. Opens 8 AM.</strong>','<strong>ပုံပြင်ထဲက ရေတံခွန် ပန်းခြံ။</strong> ဂူ၊ ရေတံခွန်၊ မြူဧရိယာ၊ ပန်းခြံ၊ သစ်ပင်အိမ်။ ယုန်နဲ့ဆိတ် ကျွေး (฿20)။ <strong>ဝင်ကြေး ฿80။ Opens 8 AM။</strong>'],
+'140':['12:00 PM — Lunch','12:00 PM — နေ့လည်စာ'],
+'141':['Lalitta Café','Lalitta Café'],
+'142':['<strong>Fairytale-themed garden café</strong> with mist, waterfalls, koi ponds. Entry ฿60 redeemable on food. Go morning for fewer crowds.','<strong>ပုံပြင်အကြောင်းအရာ ဥယျာဉ် ကဖေး</strong> မြူ၊ ရေတံခွန်၊ ငါးကန်။ ဝင်ကြေး ฿60 အစားအစာတွင် သုံးနိုင်။ နံနက်သွားပါ လူနည်းချိန်။'],
+'143':['3:00 PM — Art','3:00 PM — အနုပညာ'],
+'144':['Baan Kang Wat (Art Village)','Baan Kang Wat (Art Village)'],
+'145':['<strong>Artist community in vintage wooden houses.</strong> Ceramics workshops, DIY painting, handmade crafts. Excellent slow cafés. <strong>Closed Mondays. 10 AM–6 PM.</strong>','<strong>ရှေးဟောင်း သစ်သားအိမ် အနုပညာရှင် အသိုက်အဝန်း။</strong> မြေအိုးအလုပ်ရုံ၊ DIY ပန်းချီ၊ လက်လုပ်ပစ္စည်း။ <strong>Closed Mondays။ 10 AM–6 PM။</strong>'],
+'146':['Day 5 (per person)','ရက် 5 (per person)'],
+'147':['Meals + cafés','အစားအစာ + ကဖေး'],
+'148':['Van + entries','ဗန် + ဝင်ကြေး'],
+'149':['Day 06','ရက် 06'],
+'150':['Nature Day — Mae Wang','သဘာဝရက် — မဲဝမ်'],
+'151':['Mae Wang National Park','Mae Wang National Park'],
+'152':['🚗 <strong>Van day</strong>','🚗 <strong>ဗန်ရက်</strong>'],
+'153':['🏞 <strong>National Park</strong>','🏞 <strong>အမျိုးသား ပန်းခြံ</strong>'],
+'154':['🐘 Elephant option','🐘 ဆင် ရွေးချယ်ခွင့်'],
+'155':['8:00 AM — Nature','8:00 AM — သဘာဝ'],
+'156':['Mae Wang National Park','Mae Wang National Park'],
+'157':['<strong>Pa Chor Cliffs</strong> — dramatic rock formations dubbed "Thailand\'s Grand Canyon." Easy walking trails, viewpoints, café. <strong>Entry ฿100 + ฿30 car.</strong>','<strong>ပါချော ကျောက်ပါး</strong> — "ထိုင်း Grand Canyon" ကျောက်ဆောင်ပုံသဏ္ဍာန်။ လွယ်ကူ လမ်းလျှောက်လမ်း။ <strong>ဝင်ကြေး ฿100 + ฿30 ကား။</strong>'],
+'158':['11:00 AM — Adventure','11:00 AM — စွန့်စားခြင်း'],
+'159':['Bamboo Rafting &amp; Jungle Walk','Bamboo Rafting &amp; Jungle Walk'],
+'160':['Local operators offer <strong>bamboo rafting</strong> down the river and guided jungle walks. ~฿500–800/person.','ဒေသခံ <strong>ဝါးဖျာ စီးခြင်း</strong> နှင့် တောလမ်းလျှောက် လမ်းညွှန်။ ~฿500–800/person။'],
+'161':['2:00 PM','2:00 PM'],
+'162':['Elephant Sanctuary (Optional)','Elephant Sanctuary (Optional)'],
+'163':['Ethical elephant sanctuaries nearby. <strong>Feed and bathe elephants</strong> — no riding. Half-day ~฿1,500–2,500/person. Book ahead.','အနီးတဝိုက် ဆင်ခိုလှုံရာ။ <strong>ဆင်ကျွေး ဆင်ရေချိုး</strong> — စီးခွင့်မရှိ။ Half-day ~฿1,500–2,500/person။ ကြိုတင်ဘွတ်ကင်။'],
+'164':['6:00 PM','6:00 PM'],
+'165':['Dinner in Nimman','Dinner in Nimman'],
+'166':['Return to hotel. Dinner at One Nimman food court or explore Nimman restaurants.','ဟိုတယ်ပြန်။ One Nimman စားသောက်ဆိုင် သို့ Nimman စားသောက်ဆိုင်များ ရှာဖွေ။'],
+'167':['Day 6 (per person)','ရက် 6 (per person)'],
+'168':['Activities','လှုပ်ရှားမှုများ'],
+'169':['Meals + van','အစားအစာ + ဗန်'],
+'170':['Day 07','ရက် 07'],
+'171':['Temple, Market &amp; Farewell','ဘုရားကျောင်း၊ ဈေး နှင့် နှုတ်ဆက်ခြင်း'],
+'172':['Doi Kham · Fa Ham · Old City','Doi Kham · Fa Ham · Old City'],
+'173':['🛕 <strong>Temple</strong>','🛕 <strong>ဘုရားကျောင်း</strong>'],
+'174':['🥥 <strong>Coconut Market</strong>','🥥 <strong>Coconut Market</strong>'],
+'175':['🍳 Cooking class','🍳 Cooking class'],
+'176':['7:00 AM — Temple','7:00 AM — ဘုရားကျောင်း'],
+'177':['Wat Phra That Doi Kham','Wat Phra That Doi Kham'],
+'178':['<strong>Golden Mountain Temple.</strong> Colossal white-and-gold Buddha visible for miles. Hilltop views, spiritual atmosphere. <strong>Free entry. 6 AM–6 PM.</strong>','<strong>ရွှေတောင် ဘုရားကျောင်း။</strong> မိုင်ပေါင်းများစွာ မြင်ရသော ကြီးမားသော ရွှေ-ဖြူ ဘုရားရုပ်ပွား။ <strong>အခမဲ့။ 6 AM–6 PM။</strong>'],
+'179':['9:30 AM — Market','9:30 AM — ဈေး'],
+'180':['Coconut Market','Coconut Market'],
+'181':['<strong>Walk through endless coconut palms</strong> with a canal. Local food, handmade crafts, baby goats, live music. Try the <strong>burnt coconut water</strong>. <strong>Fri–Sun only, 8 AM–3 PM.</strong>','<strong>အုန်းပင်များကြား လမ်းလျှောက်</strong> တူးမြောင်းနှင့်အတူ။ ဒေသထွက် အစားအစာ၊ ဆိတ်ကလေး၊ ဂီတ။ <strong>မီးကင်အုန်းရည်</strong> မြည်းကြည့်ပါ။ <strong>Fri–Sun၊ 8 AM–3 PM။</strong>'],
+'182':['12:00 PM — Cooking','12:00 PM — ချက်ပြုတ်'],
+'183':['Zabb-E-Lee Cooking School','Zabb-E-Lee Cooking School'],
+'184':['<strong>5-star rated (3,000+ reviews).</strong> Market tour + cook 4 courses. Beautiful campus. Hotel pickup included. <strong>฿800–1,200/person. Book 2–3 days ahead.</strong>','<strong>ကြယ် 5 ပွင့် (သုံးသပ်ချက် 3,000+)။</strong> ဈေးလည်ပတ် + 4 မျိုး ချက်ပြုတ်။ ဟိုတယ်ကြိုပို့ ပါဝင်။ <strong>฿800–1,200/person။ 2–3 days ahead။</strong>'],
+'185':['4:00 PM','4:00 PM'],
+'186':['Airport','Airport'],
+'187':['Van to Chiang Mai International Airport. Allow 30–40 min from Old City.','ချင်းမိုင် အပြည်ပြည်ဆိုင်ရာ Airportသို့ ဗန်။ ဟောင်းမြို့မှ 30–40 min။'],
+'188':['Day 7 (per person)','ရက် 7 (per person)'],
+'189':['Cooking class','Cooking class'],
+'190':['Market + snacks','ဈေး + မုန့်'],
+'191':['💰 7-Day Budget Summary','💰 7 ရက် ဘတ်ဂျက် အကျဉ်းချုပ်'],
+'192':['Day 1 — Nimman','ရက် 1 — Nimman'],
+'193':['Day 2 — Old City','ရက် 2 — ဟောင်းမြို့'],
+'194':['Day 3 — Waterfalls + Cafés','ရက် 3 — ရေတံခွန် + ကဖေး'],
+'195':['Day 4 — Mountains','ရက် 4 — တောင်တန်း'],
+'196':['Day 5 — Cafés + Art','ရက် 5 — ကဖေး + အနုပညာ'],
+'197':['Day 6 — Mae Wang','ရက် 6 — မဲဝမ်'],
+'198':['Day 7 — Temple + Cooking','ရက် 7 — ဘုရားကျောင်း + ချက်ပြုတ်'],
+'199':['Per Person Total','Per Person Total'],
+'200':['<strong>5 travelers: ~฿32,900 (~$914 USD) total.</strong><br>Food, entries, activities &amp; transport. Excludes accommodation &amp; flights.','<strong>ခရီးသည် 5 ဦး: ~฿32,900 (~$914 USD) စုစုပေါင်း။</strong><br>အစားအစာ၊ ဝင်ကြေး၊ လှုပ်ရှားမှု နှင့် သယ်ယူပို့ဆောင်ရေး။ တည်းခိုခ နှင့် လေယာဉ်လက်မှတ် မပါ။'],
+'201':['🎒 Packing','🎒 ပစ္စည်းထုပ်'],
+'202':['🚗 Transport Tips','🚗 သယ်ယူပို့ဆောင်ရေး'],
+'203':['💡 Practical','💡 လက်တွေ့ကျ'],
+'204':['🌡 Daily Rhythm','🌡 နေ့စဉ် အချိန်ဇယား'],
+'205':['Cover shoulders &amp; knees (temples)','ပခုံးနှင့် ဒူးဖုံးအုပ် (ဘုရားကျောင်း)'],
+'206':['Slip-on shoes','အလွယ်တကူ ဖိနပ်'],
+'207':['Compact umbrella','ခေါက်ထီး'],
+'208':['SPF 50+ · Insect repellent','SPF 50+ · ပိုးသတ်ဆေး'],
+'209':['Swimwear (Sticky Waterfall)','ရေကူးဝတ်စုံ (ကပ်ရေတံခွန်)'],
+'210':['Light jacket (mountains are cooler)','ဂျက်ကတ်ပါး (တောင်ပေါ် ပိုအေး)'],
+'211':['Private van: ฿1,500–2,500/day','ကိုယ်ပိုင်ဗန်: ฿1,500–2,500/day'],
+'212':['Grab works in the city','Grab မြို့ထဲ အဆင်ပြေ'],
+'213':['Songthaew (red trucks): ฿30–60','ဆောင်သဲဝ် (နီကား): ฿30–60'],
+'214':['Don\'t mix distant places in one day','ဝေးတဲ့နေရာ တစ်ရက်ထဲ မရောပါနဲ့'],
+'215':['Mountains take longer than Maps says','တောင်ပေါ်က Maps ထက် ပိုကြာ'],
+'216':['Cash is king — small bills','ငွေသား အရေးကြီး — အကြွေ'],
+'217':['Complete TDAC 72 hrs before landing','TDAC 72 hrs ဖြည့်'],
+'218':['7-Eleven: water, SIM cards, snacks','7-Eleven: ရေ၊ SIM ကတ်၊ မုန့်'],
+'219':['"Sawasdee" (hello) · "Khob khun" (thanks)','"ဆာဝတ်ဒီ" (မင်္ဂလာ) · "ခုပ်ခွန်" (ကျေးဇူး)'],
+'220':['Coconut Market: Fri–Sun only','အုန်းသီးဈေး: Fri–Sun သာ'],
+'221':['<strong>7–10 AM:</strong> Outdoor activities','<strong>7–10 AM:</strong> အပြင် လှုပ်ရှားမှု'],
+'222':['<strong>10–12:</strong> Indoor / cafés','<strong>10–12:</strong> အတွင်း / ကဖေး'],
+'223':['<strong>12–3 PM:</strong> Lunch, rest, massage','<strong>12–3 PM:</strong> နေ့လည်စာ၊ နားချိန်၊ အနှိပ်'],
+'224':['<strong>3–6 PM:</strong> Second outing','<strong>3–6 PM:</strong> ဒုတိယအကြိမ် ထွက်'],
+'225':['<strong>6 PM+:</strong> Markets &amp; dinner','<strong>6 PM+:</strong> ဈေး နှင့် ညစာ'],
+'226':['Prepared with care for your family','သင့်မိသားစုအတွက် ဂရုတစိုက် ပြင်ဆင်ထားသည်'],
+'227':['Seven days · Five travelers · One ancient city<br>Chiang Mai · Early May 2026<br><br><em>Prices verified March 2026. Confirm reservations 48 hrs ahead.</em>','ခုနစ်ရက် · ခရီးသည် 5 ဦး · ရှေးဟောင်းမြို့<br>ချင်းမိုင် · 2026 မေလ<br><br><em>ဈေးနှုန်း 2026 မတ်လ အတည်ပြု။ 48 hrs ကြိုတင် booking။</em>'],
+'228':['Total','စုစုပေါင်း']
+};
+var lang='en';
+function toggleLang(){
+  lang=lang==='en'?'mm':'en';
+  var idx=lang==='mm'?1:0;
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    var k=el.getAttribute('data-t');
+    if(T[k]) el.innerHTML=T[k][idx];
+  });
+  document.body.classList.toggle('lang-mm',lang==='mm');
+  document.getElementById('enBtn').className=lang==='en'?'active':'inactive';
+  document.getElementById('mmBtn').className=lang==='mm'?'active':'inactive';
+}
+</script>
+</body></html>
